@@ -29,7 +29,7 @@ public final class Sphere extends SceneObject {
         double disc = pow(radius, 2) - (eo.dotProduct(eo) - pow(v, 2));
         float dist = disc < 0 ? 0 : v - (float) sqrt(disc);
         
-        return (dist == 0) ? null : new Intersection(this, ray, dist); 
+        return (dist <= 0) ? null : new Intersection(this, ray, dist); 
     }
     
     @Override
