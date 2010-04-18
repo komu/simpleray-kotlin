@@ -38,4 +38,14 @@ public final class Surfaces {
             return 0.6f;
         }
     };
+
+    public static Surface findSurfaceByName(String name) {
+        try {
+            return (Surface) Surfaces.class.getField(name).get(null);
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
