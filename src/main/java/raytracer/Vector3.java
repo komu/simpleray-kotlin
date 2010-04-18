@@ -60,4 +60,9 @@ public final class Vector3 {
         float dz = z - v.z;
         return (float) sqrt(dx*dx + dy*dy + dz*dz);
     }
+    
+    @Override
+    public String toString() {
+        return "[" + x + " " + y + " " + z + "]";
+    }
 }
