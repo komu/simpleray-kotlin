@@ -41,5 +41,10 @@ public final class Color {
     private static float clamp(float d) {
         return max(0, min(d, 1));
     }
+    
+    @Override
+    public String toString() {
+        return "(" + r + " " + g + " " + b + ")";
+    }
 }
 
