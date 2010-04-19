@@ -64,7 +64,7 @@ public final class Raytracer {
         Surface surface = intersection.object.surface;
         
         float specular = livec.dotProduct(reflectDir.normalize());
-        Color specularColor = (specular > 0) ? light.color.multiply((float) Math.pow(specular, surface.rougness)) : Color.BLACK;
+        Color specularColor = (specular > 0) ? light.color.multiply((float) Math.pow(specular, surface.roughness)) : Color.BLACK;
 
         return lightColor.multiply(surface.diffuse(pos)).add(specularColor.multiply(surface.specular(pos)));
     }

@@ -2,12 +2,12 @@ package raytracer;
 
 public abstract class Surface {
     
-    public final float rougness;
+    public final float roughness;
     
     protected Surface(float roughness) {
         assert roughness > 0;
         
-        this.rougness = roughness;
+        this.roughness = roughness;
     }
     
     public abstract Color diffuse(Vector3 pos);
