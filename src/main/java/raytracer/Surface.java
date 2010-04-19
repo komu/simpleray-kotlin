@@ -12,5 +12,5 @@ public abstract class Surface {
     
     public abstract Color diffuse(Vector3 pos);
     public abstract Color specular(Vector3 pos);
-    public abstract float reflect(Vector3 pos);
+    public abstract float reflectivity(Vector3 pos);
 }

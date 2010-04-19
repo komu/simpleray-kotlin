@@ -16,7 +16,7 @@ public final class Surfaces {
         }
 
         @Override
-        public float reflect(Vector3 pos) {
+        public float reflectivity(Vector3 pos) {
             return ((floor(pos.z) + floor(pos.x)) % 2 != 0) ? 0.1f : 0.7f;
         }
     };
@@ -34,7 +34,7 @@ public final class Surfaces {
         }
   
         @Override
-        public float reflect(Vector3 pos) {
+        public float reflectivity(Vector3 pos) {
             return 0.6f;
         }
     };
@@ -51,7 +51,7 @@ public final class Surfaces {
         }
   
         @Override
-        public float reflect(Vector3 pos) {
+        public float reflectivity(Vector3 pos) {
             return 1.0f;
         }
     };

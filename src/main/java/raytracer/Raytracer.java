@@ -1,5 +1,7 @@
 package raytracer;
 
+import static java.lang.Math.pow;
+
 public final class Raytracer {
 
     private final Scene scene;
@@ -24,73 +26,116 @@ public final class Raytracer {
         float recenterX = (x - (width / 2.0f)) / (2.0f * width);
         Vector3 direction = scene.camera.recenteredDirection(recenterX, recenterY);
 
-        return traceRay(new Ray(scene.camera.position, direction), 0);
+        return traceRay(new Ray(scene.camera.position, direction), maxDepth);
     }
-    
-    private Color traceRay(Ray ray, int depth) {
+
+    /**
+     * Traces a ray into given direction, taking at most maxSteps recursive
+     * steps.
+     */
+    private Color traceRay(Ray ray, int maxSteps) {
         Intersection intersection = scene.nearestIntersection(ray);
-        if (intersection == null) return backgroundColor;
+        if (intersection == null)
+            return backgroundColor;
         
-        Vector3 pos = intersection.getPosition();
-        
-        Color naturalColor = naturalColor(intersection, pos);
-        Color reflectColor = reflectColor(intersection, pos, depth);
+        Color naturalColor = naturalColor(intersection);
+        Color reflectColor = reflectColor(intersection, maxSteps);
         
         return naturalColor.add(reflectColor);
     }
 
-    private Color naturalColor(Intersection intersection, Vector3 pos) {
+    /**
+     * Returns the natural color of given intersection by sum of different
+     * lights coming to that position.
+     */
+    private Color naturalColor(Intersection intersection) {
         Color color = Color.BLACK;
 
-        Vector3 normal = intersection.object.normal(pos);
-        Vector3 d = intersection.ray.direction;
-        Vector3 reflectDir = d.subtract(normal.scale(2 * normal.dotProduct(d))); 
-        
         for (Light light : scene.getLights())
-            color = color.add(naturalColor(intersection, pos, normal, reflectDir, light));
+            color = color.add(naturalColor(intersection, light));
         
         return color;
     }
-    
-    private Color naturalColor(Intersection intersection, Vector3 pos, Vector3 normal, Vector3 reflectDir, Light light) {
-        if (isInShadow(light, pos))
+
+    /**
+     * Returns the natural color given by given light.
+     */
+    private Color naturalColor(Intersection intersection, Light light) {
+        if (isInShadow(light, intersection.getPosition())) {
             return Color.BLACK;
+        } else {
+            Color diffuseColor = diffuseColor(intersection, light);
+            Color specularColor = specularColor(intersection, light);
 
-        Vector3 livec = light.vectorFrom(pos).normalize();
-        
-        float illumination = livec.dotProduct(normal);
-        Color lightColor = (illumination > 0) ? light.color.multiply(illumination) : Color.BLACK;
-
-        Surface surface = intersection.object.surface;
-        
-        float specular = livec.dotProduct(reflectDir.normalize());
-        Color specularColor = (specular > 0) ? light.color.multiply((float) Math.pow(specular, surface.roughness)) : Color.BLACK;
-
-        return lightColor.multiply(surface.diffuse(pos)).add(specularColor.multiply(surface.specular(pos)));
+            return diffuseColor.add(specularColor);
+        }
     }
 
-    private boolean isInShadow(Light light, Vector3 pos) {
-        Vector3 lightDistance = light.vectorFrom(pos);
-        Ray testRay = new Ray(pos, lightDistance.normalize());
-
-        Intersection testIsect = scene.nearestIntersection(testRay);
-        return (testIsect != null) && (testIsect.distance <= lightDistance.magnitude());
-    }
-
-    private Color reflectColor(Intersection intersection, Vector3 pos, int depth) {
-        Vector3 dir = intersection.ray.direction;
-
-        Vector3 normal = intersection.object.normal(pos);
-        Vector3 reflectDir = dir.subtract(normal.scale(2 * normal.dotProduct(dir)));
-        
-        Vector3 reflectPos = pos.add(reflectDir.scale(0.001f));
-        if (depth >= maxDepth)
+    /**
+     * Calculates the color which is reflected to given intersection by
+     * recursively tracing ray towards the direction of reflection.
+     */
+    private Color reflectColor(Intersection intersection, int maxSteps) {
+        if (maxSteps <= 1)
             return maxDepthColor;
-
-        float reflectivity = intersection.object.surface.reflect(reflectPos);
         
-        Color color = traceRay(new Ray(reflectPos, reflectDir), depth+1);
+        Vector3 reflectDir = intersection.getReflectDirection();
+        Vector3 reflectPos = intersection.getPosition().add(reflectDir.scale(0.001f));
+
+        float reflectivity = intersection.getSurface().reflectivity(reflectPos);
+        if (reflectivity == 0)
+            return Color.BLACK;
+        
+        Color color = traceRay(new Ray(reflectPos, reflectDir), maxSteps-1);
         return color.multiply(reflectivity);
     }
-}
     
+    /**
+     * Calculates the diffuse color at given intersection by Lambertian
+     * reflectance. See http://en.wikipedia.org/wiki/Lambertian_reflectance
+     */
+    private Color diffuseColor(Intersection intersection, Light light) {
+        Vector3 pos = intersection.getPosition();
+        Vector3 lightDirection = light.vectorFrom(pos).normalize();
+
+        float illumination = lightDirection.dotProduct(intersection.getNormal());
+        if (illumination <= 0)
+            return Color.BLACK;
+        
+        Surface surface = intersection.getSurface();
+        Color color = light.color.multiply(illumination);
+        return color.multiply(surface.diffuse(pos));
+    }
+
+    /**
+     * Calculates the specular reflection of light at given intersection.
+     * See http://en.wikipedia.org/wiki/Phong_shading
+     * and http://en.wikipedia.org/wiki/Specular_reflection
+     */
+    private Color specularColor(Intersection intersection, Light light) {
+        Vector3 pos = intersection.getPosition();
+        Vector3 vectorToLight = light.vectorFrom(pos).normalize();
+        Vector3 reflectDir = intersection.getReflectDirection();
+        
+        float specular = vectorToLight.dotProduct(reflectDir.normalize());
+        if (specular <= 0)
+            return Color.BLACK;
+
+        Surface surface = intersection.getSurface();
+        float specularFactor = (float) pow(specular, surface.roughness);
+        Color color = light.color.multiply(specularFactor);
+        
+        return color.multiply(surface.specular(pos));
+    }
+
+    /**
+     * Returns true if given light is not visible from given position.
+     */
+    private boolean isInShadow(Light light, Vector3 pos) {
+        Vector3 vectorToLight = light.vectorFrom(pos);
+        Ray testRay = new Ray(pos, vectorToLight.normalize());
+
+        Intersection testIsect = scene.nearestIntersection(testRay);
+        return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude());
+    }
+}
