@@ -38,6 +38,23 @@ public final class Surfaces {
             return 0.6f;
         }
     };
+    
+    public static final Surface mirror = new Surface(50) {
+        @Override
+        public Color specular(Vector3 pos) {
+            return Color.BLACK;
+        }
+  
+        @Override
+        public Color diffuse(Vector3 pos) {
+            return Color.BLACK;
+        }
+  
+        @Override
+        public float reflect(Vector3 pos) {
+            return 1.0f;
+        }
+    };
 
     public static Surface findSurfaceByName(String name) {
         try {
