@@ -53,7 +53,11 @@ public final class Vector3 {
     }
 
     public float magnitude() {
-        return sqrt(dotProduct(this));
+        return sqrt(magnitudeSquared());
+    }
+    
+    public float magnitudeSquared() {
+        return dotProduct(this);
     }
     
     public float distance(Vector3 v) {

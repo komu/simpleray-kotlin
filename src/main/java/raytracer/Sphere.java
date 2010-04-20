@@ -20,18 +20,18 @@ public final class Sphere extends SceneObject {
     
     @Override
     public Intersection intersect(Ray ray) {
-        Vector3 eo = center.subtract(ray.start);
-        float v = eo.dotProduct(ray.direction);
-        
-        if (v < 0)
+        Vector3 v = center.subtract(ray.start);
+        float b = v.dotProduct(ray.direction);
+
+        // if v < 0, distance is going to be negative; bail out early
+        if (b < 0)
             return null;
         
-        float disc = square(radius) - (eo.dotProduct(eo) - square(v));
+        float disc = square(radius) - (v.magnitudeSquared() - square(b));
         if (disc < 0)
             return null;
         
-        float distance = v - sqrt(disc);
-        
+        float distance = b - sqrt(disc);
         if (distance <= 0)
             return null;
         
