@@ -1,7 +1,7 @@
 package raytracer;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static raytracer.MathUtils.sqrt;
+import static raytracer.MathUtils.square;
 
 public final class Sphere extends SceneObject {
 
@@ -26,10 +26,16 @@ public final class Sphere extends SceneObject {
         if (v < 0)
             return null;
         
-        double disc = pow(radius, 2) - (eo.dotProduct(eo) - pow(v, 2));
-        float dist = disc < 0 ? 0 : v - (float) sqrt(disc);
+        float disc = square(radius) - (eo.dotProduct(eo) - square(v));
+        if (disc < 0)
+            return null;
         
-        return (dist <= 0) ? null : new Intersection(this, ray, dist); 
+        float distance = v - sqrt(disc);
+        
+        if (distance <= 0)
+            return null;
+        
+        return new Intersection(this, ray, distance); 
     }
     
     @Override

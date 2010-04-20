@@ -1,6 +1,8 @@
 package raytracer;
 
 import static java.lang.Math.sqrt;
+import static raytracer.MathUtils.sqrt;
+import static raytracer.MathUtils.square;
 
 public final class Vector3 {
 
@@ -51,14 +53,14 @@ public final class Vector3 {
     }
 
     public float magnitude() {
-        return (float) sqrt(dotProduct(this));
+        return sqrt(dotProduct(this));
     }
     
     public float distance(Vector3 v) {
         float dx = x - v.x;
         float dy = y - v.y;
         float dz = z - v.z;
-        return (float) sqrt(dx*dx + dy*dy + dz*dz);
+        return sqrt(square(dx) + square(dy) + square(dz));
     }
     
     @Override
