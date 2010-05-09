@@ -1,6 +1,6 @@
 package raytracer;
 
-import static java.lang.Math.pow;
+import static raytracer.MathUtils.pow;
 
 public final class Raytracer {
 
@@ -122,7 +122,7 @@ public final class Raytracer {
             return Color.BLACK;
 
         Surface surface = intersection.getSurface();
-        float specularFactor = (float) pow(specular, surface.roughness);
+        float specularFactor = pow(specular, surface.roughness);
         Color color = light.color.multiply(specularFactor);
         
         return color.multiply(surface.specular(pos));

@@ -12,6 +12,10 @@ public final class MathUtils {
         return (float) Math.sqrt(x);
     }
     
+    public static float pow(float a, float b) {
+        return (float) Math.pow(a, b);
+    }
+    
     /**
      * Returns the roots roots of ax^2+bx+c = 0.
      */
