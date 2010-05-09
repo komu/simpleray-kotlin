@@ -20,6 +20,8 @@ public final class Sphere extends SceneObject {
     
     @Override
     public Intersection intersect(Ray ray) {
+        // See http://en.wikipedia.org/wiki/Line-sphere_intersection
+        
         Vector3 v = center.subtract(ray.start);
         float b = v.dotProduct(ray.direction);
 
