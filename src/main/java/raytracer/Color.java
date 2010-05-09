@@ -34,8 +34,16 @@ public final class Color {
         return new Color(r-c.r, g-c.g, b-c.b);
     }
 
-    public java.awt.Color toAWTColor() {
-        return new java.awt.Color(clamp(r), clamp(g), clamp(b));
+    public int toARGB() {
+        int aa = 0xFF;
+        int rr = (int) (clamp(r)*255+0.5);
+        int gg = (int) (clamp(g)*255+0.5);
+        int bb = (int) (clamp(b)*255+0.5);
+            
+        return ((aa & 0xFF) << 24) |
+               ((rr & 0xFF) << 16) |
+               ((gg & 0xFF) << 8)  |
+               ((bb & 0xFF) << 0);
     }
     
     private static float clamp(float d) {
