@@ -1,7 +1,7 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import static raytracer.MathUtils.sqrt;
-import static raytracer.MathUtils.square;
+import static fi.evident.dojo.raytracer.MathUtils.sqrt;
+import static fi.evident.dojo.raytracer.MathUtils.square;
 
 public final class Sphere extends SceneObject {
 

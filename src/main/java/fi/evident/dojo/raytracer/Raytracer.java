@@ -1,6 +1,6 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import static raytracer.MathUtils.pow;
+import static fi.evident.dojo.raytracer.MathUtils.pow;
 
 public final class Raytracer {
 
