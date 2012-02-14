@@ -45,11 +45,8 @@ class RaytracerView(scene: Scene) : JComponent() {
         val latch = CountDownLatch(numberOfThreads)
         val row = AtomicInteger(0)
 
-        var i = 0
-        while (i < numberOfThreads) {
+        for (val i in 1..numberOfThreads)
             Thread(MyRunnable(this, row, latch)).start()
-            i++
-        }
     }
 }
 
@@ -67,11 +64,8 @@ class MyRunnable(val component: RaytracerView, val row: AtomicInteger, val latch
             val y = row.incrementAndGet()
             if (y >= height) break
 
-            var x = 0
-            while (x < width) {
+            for (val x in 0..width-1)
                 rgbArray[x] = raytracer.colorFor(x, y).sure().toARGB()
-                x++
-            }
 
             image.setRGB(0, y, width, 1, rgbArray, 0, 1)
 
@@ -79,7 +73,6 @@ class MyRunnable(val component: RaytracerView, val row: AtomicInteger, val latch
                 component.repaint();
         }
 
-        println("done")
         latch.countDown();
     }
 }
