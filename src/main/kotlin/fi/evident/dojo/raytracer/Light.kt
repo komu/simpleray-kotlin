@@ -19,23 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package fi.evident.dojo.raytracer
 
-package fi.evident.dojo.raytracer;
+class Light(val position: Vector3, val color: Color) {
 
-public final class Light {
-    
-    public final Vector3 position;
-    public final Color color;
-    
-    public Light(Vector3 position, Color color) {
-        assert position != null;
-        assert color != null;
-        
-        this.position = position;
-        this.color = color;
-    }
-    
-    public Vector3 vectorFrom(Vector3 pos) {
-        return position.subtract(pos);
-    }
+    fun vectorFrom(pos: Vector3): Vector3 =
+        position.subtract(pos).sure()
 }
+

@@ -85,14 +85,14 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun diffuseColor(intersection: Intersection, light: Light): Color {
         val pos = intersection.getPosition().sure()
-        val lightDirection = light.vectorFrom(pos).sure().normalize().sure()
+        val lightDirection = light.vectorFrom(pos).normalize().sure()
 
         val illumination = lightDirection.dotProduct(intersection.getNormal().sure()).sure()
         if (illumination <= 0)
             return Color.BLACK.sure()
 
         val surface = intersection.getSurface().sure()
-        val color = light.color.sure().multiply(illumination).sure()
+        val color = light.color.multiply(illumination).sure()
         return color.multiply(surface.diffuse(pos)).sure()
     }
 
