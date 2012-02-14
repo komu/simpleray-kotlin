@@ -59,8 +59,8 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     private fun naturalColor(intersection: Intersection): Color {
         var color = Color.BLACK.sure()
 
-        for (val light in scene.getLights())
-            color = color.add(naturalColor(intersection, light.sure())).sure()
+        for (val light in scene.lights)
+            color = color.add(naturalColor(intersection, light)).sure()
 
         return color
     }
