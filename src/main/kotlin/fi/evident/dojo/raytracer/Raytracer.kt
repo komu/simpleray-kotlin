@@ -103,7 +103,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun specularColor(intersection: Intersection, light: Light): Color {
         val pos = intersection.getPosition().sure()
-        val vectorToLight = light.vectorFrom(pos).sure().normalize().sure()
+        val vectorToLight = light.vectorFrom(pos).normalize().sure()
         val reflectDir = intersection.getReflectDirection().sure()
 
         val specular = vectorToLight.dotProduct(reflectDir.normalize())
