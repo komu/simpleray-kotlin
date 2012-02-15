@@ -30,18 +30,6 @@ class Scene(val camera: Camera) {
     val objects: List<SceneObject> = ArrayList<SceneObject>()
     val lights: List<Light> = ArrayList<Light>()
 
-    fun addObject(obj: SceneObject) {
-        objects.add(obj)
-    }
-
-    fun addLight(light: Light) {
-        lights.add(light)
-    }
-
-    fun addLight(position: Vector3, color: Color) {
-        addLight(Light(position, color))
-    }
-
     fun nearestIntersection(ray: Ray): Intersection? {
         var nearest: Intersection? = null
 

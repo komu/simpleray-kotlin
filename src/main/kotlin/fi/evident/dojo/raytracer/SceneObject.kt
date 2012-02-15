@@ -23,17 +23,19 @@ package fi.evident.dojo.raytracer
 
 import math.Vector3
 
-abstract class SceneObject(val surface: Surface) {
+trait SceneObject {
+
+    val surface: Surface
 
     /**
      * Returns the intersection of this object with given ray, or null
      * if the ray does not intersect the object.
      */
-    abstract fun intersect(ray: Ray): Intersection?
+    fun intersect(ray: Ray): Intersection?
 
     /**
      * Returns the normal of the object at given position.
      */
-    abstract fun normal(pos: Vector3): Vector3
+    fun normal(pos: Vector3): Vector3
 }
 

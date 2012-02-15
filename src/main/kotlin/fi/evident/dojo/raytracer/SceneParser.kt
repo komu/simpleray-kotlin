@@ -65,9 +65,9 @@ class SceneParser(input: String) {
         while (hasMore()) {
             val symbol = readSymbol()
             when (symbol) {
-                "plane"  -> scene.addObject(parsePlane())
-                "sphere" -> scene.addObject(parseSphere())
-                "light"  -> scene.addLight(parseLight())
+                "plane"  -> scene.objects.add(parsePlane())
+                "sphere" -> scene.objects.add(parseSphere())
+                "light"  -> scene.lights.add(parseLight())
                 else     -> throw fail("unexpected symbol ${symbol}")
             }
         }

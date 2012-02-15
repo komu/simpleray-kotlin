@@ -26,7 +26,7 @@ import math.square
 import math.Vector3
 import math.normalize
 
-class Sphere(val center: Vector3, val radius: Double, surface: Surface) : SceneObject(surface) {
+class Sphere(val center: Vector3, val radius: Double, override val surface: Surface) : SceneObject {
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
