@@ -21,5 +21,22 @@
  */
 package fi.evident.dojo.raytracer
 
+import java.io.File
+import java.io.FileReader
+
 fun StringBuilder.build() =
     this.toString().sure()
+
+fun File.readAsString(): String =
+    FileReader(this) foreach { reader ->
+        val buffer = CharArray(1024)
+        val sb = StringBuilder()
+
+        while (true) {
+            val n = reader.read(buffer)
+            if (n == -1) break
+            sb.append(buffer, 0, n)
+        }
+
+        sb.build()
+    }

@@ -22,8 +22,6 @@
 package fi.evident.dojo.raytracer
 
 import java.io.File
-import java.io.FileReader
-import java.io.IOException
 
 import java.lang.Character.isLetter
 import java.lang.Character.isWhitespace
@@ -39,21 +37,7 @@ class SceneParser(input: String) {
             parseScene(File(file))
 
         fun parseScene(file: File): Scene =
-            SceneParser(readContents(file)).parseScene()
-
-        private fun readContents(file: File): String =
-            FileReader(file) foreach { reader ->
-                val buffer = CharArray(1024)
-                val sb = StringBuilder()
-
-                while (true) {
-                    val n = reader.read(buffer)
-                    if (n == -1) break
-                    sb.append(buffer, 0, n)
-                }
-
-                sb.build()
-            }
+            SceneParser(file.readAsString()).parseScene()
     }
 
     fun parseScene(): Scene {
