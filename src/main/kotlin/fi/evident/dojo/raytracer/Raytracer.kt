@@ -140,8 +140,8 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      * Returns true if given light is not visible from given position.
      */
     private fun isInShadow(light: Light, pos: Vector3): Boolean {
-         val vectorToLight = light.vectorFrom(pos).sure()
-         val testRay = Ray(pos, vectorToLight.normalize());
+         val vectorToLight = light.vectorFrom(pos)
+         val testRay = Ray(pos, vectorToLight.normalize().sure());
 
          val testIsect = scene.nearestIntersection(testRay);
          return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude());
