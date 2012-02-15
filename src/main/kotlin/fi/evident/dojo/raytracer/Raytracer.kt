@@ -126,7 +126,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             return maxDepthColor
 
         val reflectDir = intersection.reflectDirection
-        val reflectPos = intersection.position.add(reflectDir.scale(0.001.flt))
+        val reflectPos = intersection.position.add(reflectDir.scale(0.001.flt)).sure()
 
         val reflectivity = intersection.surface.reflectivity(reflectPos)
         if (reflectivity == 0.flt)

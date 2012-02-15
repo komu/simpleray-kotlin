@@ -27,26 +27,26 @@ import java.lang.Math.floor
 object Surfaces {
 
     val checkerboard = object : Surface(150.flt) {
-        override fun specular(pos: Vector3?) =
-            Color.WHITE
+        override fun specular(pos: Vector3) =
+            Color.WHITE.sure()
 
-        override fun reflectivity(pos: Vector3?) =
-            if ((floor(pos.sure().z.dbl) + floor(pos.sure().x.dbl)) % 2 != 0.0) 0.1.flt else 0.7.flt
+        override fun reflectivity(pos: Vector3) =
+            if ((floor(pos.z.dbl) + floor(pos.x.dbl)) % 2 != 0.0) 0.1.flt else 0.7.flt
 
-        override fun diffuse(pos: Vector3?) =
-            if ((floor(pos.sure().z.dbl) + floor(pos.sure().x.dbl)) % 2 != 0.0) Color.WHITE else Color.BLACK
+        override fun diffuse(pos: Vector3) =
+            if ((floor(pos.z.dbl) + floor(pos.x.dbl)) % 2 != 0.0) Color.WHITE.sure() else Color.BLACK.sure()
     }
 
     val shiny = object : Surface(150.flt) {
-        override fun diffuse(pos: Vector3?) = Color.WHITE
-        override fun specular(pos: Vector3?) = Color(0.5.flt, 0.5.flt, 0.5.flt)
-        override fun reflectivity(pos: Vector3?) = 0.6.flt
+        override fun diffuse(pos: Vector3) = Color.WHITE.sure()
+        override fun specular(pos: Vector3) = Color(0.5.flt, 0.5.flt, 0.5.flt)
+        override fun reflectivity(pos: Vector3) = 0.6.flt
     }
 
     val mirror = object : Surface(50.flt) {
-        override fun reflectivity(pos: Vector3?) = 1.flt
-        override fun diffuse(pos: Vector3?) = Color.BLACK
-        override fun specular(pos: Vector3?) = Color.BLACK
+        override fun reflectivity(pos: Vector3) = 1.flt
+        override fun diffuse(pos: Vector3) = Color.BLACK.sure()
+        override fun specular(pos: Vector3) = Color.BLACK.sure()
     }
 
     fun findSurfaceByName(name: String): Surface? =

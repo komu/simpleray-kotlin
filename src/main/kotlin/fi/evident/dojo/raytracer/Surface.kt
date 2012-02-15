@@ -19,20 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package fi.evident.dojo.raytracer
 
-package fi.evident.dojo.raytracer;
-
-public abstract class Surface {
-    
-    public final float roughness;
-    
-    protected Surface(float roughness) {
-        assert roughness > 0;
-        
-        this.roughness = roughness;
-    }
-    
-    public abstract Color diffuse(Vector3 pos);
-    public abstract Color specular(Vector3 pos);
-    public abstract float reflectivity(Vector3 pos);
+abstract class Surface(val roughness: Float) {
+    abstract fun diffuse(pos: Vector3): Color
+    abstract fun specular(pos: Vector3): Color
+    abstract fun reflectivity(pos: Vector3): Float
 }
