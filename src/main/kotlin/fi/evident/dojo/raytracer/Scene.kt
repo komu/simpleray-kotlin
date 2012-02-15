@@ -23,6 +23,7 @@ package fi.evident.dojo.raytracer
 
 import java.util.ArrayList
 import java.util.List
+import math.Vector3
 
 class Scene(val camera: Camera) {
 

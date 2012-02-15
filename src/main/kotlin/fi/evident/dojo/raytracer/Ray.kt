@@ -22,4 +22,6 @@
 
 package fi.evident.dojo.raytracer
 
+import math.Vector3
+
 class Ray(val start: Vector3, val direction: Vector3)

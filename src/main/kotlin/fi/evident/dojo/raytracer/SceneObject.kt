@@ -21,6 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
+import math.Vector3
+
 abstract class SceneObject(val surface: Surface) {
 
     /**

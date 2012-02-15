@@ -22,6 +22,8 @@
 
 package fi.evident.dojo.raytracer
 
+import math.Vector3
+
 class Plane(val normal: Vector3, val offset: Double, surface: Surface) : SceneObject(surface) {
 
     override fun intersect(ray: Ray): Intersection? {

@@ -22,6 +22,8 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.pow
+import math.Vector3
+import math.normalize
 
 class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
@@ -85,7 +87,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun diffuseColor(intersection: Intersection, light: Light): Color {
         val pos = intersection.position
-        val lightDirection = light.vectorFrom(pos).normalize()
+        val lightDirection = normalize(light.vectorFrom(pos))
 
         val illumination = lightDirection dot intersection.normal
         if (illumination <= 0)
@@ -102,8 +104,8 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun specularColor(intersection: Intersection, light: Light): Color {
         val pos = intersection.position
-        val vectorToLight = light.vectorFrom(pos).normalize()
-        val reflectDir = intersection.reflectDirection.normalize()
+        val vectorToLight = normalize(light.vectorFrom(pos))
+        val reflectDir = normalize(intersection.reflectDirection)
 
         val specular = vectorToLight dot reflectDir
         if (specular <= 0)
@@ -139,7 +141,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun isInShadow(light: Light, pos: Vector3): Boolean {
          val vectorToLight = light.vectorFrom(pos)
-         val testRay = Ray(pos, vectorToLight.normalize())
+         val testRay = Ray(pos, normalize(vectorToLight))
 
          val intersection = scene.nearestIntersection(testRay)
          return (intersection != null) && (intersection.distance <= vectorToLight.magnitude)

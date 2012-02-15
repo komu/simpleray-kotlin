@@ -21,6 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
+import math.Vector3
+
 class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
 
     private var _position: Vector3? = null

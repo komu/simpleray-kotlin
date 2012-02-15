@@ -19,10 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fi.evident.dojo.raytracer
+package fi.evident.dojo.raytracer.math
 
 import java.lang.Math.sqrt
 import fi.evident.dojo.raytracer.math.square
+
+fun normalize(v: Vector3) =
+    v / v.magnitude
 
 class Vector3(val x: Double, val y: Double, val z: Double) {
 
@@ -38,8 +41,6 @@ class Vector3(val x: Double, val y: Double, val z: Double) {
 
     fun dot(v: Vector3)   = x*v.x + y*v.y + z*v.z
     fun cross(v: Vector3) = Vector3(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
-
-    fun normalize() = this / magnitude
 
     val magnitude: Double
        get() = sqrt(magnitudeSquared)

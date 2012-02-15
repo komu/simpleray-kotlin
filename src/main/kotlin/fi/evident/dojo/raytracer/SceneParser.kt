@@ -28,6 +28,8 @@ import java.io.IOException
 import java.lang.Character.isLetter
 import java.lang.Character.isWhitespace
 
+import math.Vector3
+
 fun parseScene(file: String): Scene =
     parseScene(File(file))
 

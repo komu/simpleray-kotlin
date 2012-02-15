@@ -22,7 +22,9 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.sqrt
-import fi.evident.dojo.raytracer.math.square
+import math.square
+import math.Vector3
+import math.normalize
 
 class Sphere(val center: Vector3, val radius: Double, surface: Surface) : SceneObject(surface) {
 
@@ -46,5 +48,5 @@ class Sphere(val center: Vector3, val radius: Double, surface: Surface) : SceneO
         return Intersection(this, ray, distance)
     }
 
-    override fun normal(pos: Vector3) = (pos - center).normalize()
+    override fun normal(pos: Vector3) = normalize(pos - center)
 }

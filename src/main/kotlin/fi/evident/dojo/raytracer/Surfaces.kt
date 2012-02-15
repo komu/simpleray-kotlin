@@ -23,6 +23,7 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.floor
+import math.Vector3
 
 object Surfaces {
 
