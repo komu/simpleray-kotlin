@@ -44,35 +44,45 @@ class RaytracerView(scene: Scene) : JComponent() {
         val numberOfThreads = Runtime.getRuntime().sure().availableProcessors()
         val latch = CountDownLatch(numberOfThreads)
         val row = AtomicInteger(0)
+        val repaintInterval = 20
 
         for (val i in 1..numberOfThreads)
-            Thread(MyRunnable(this, row, latch)).start()
-    }
-}
+            Thread(object : Runnable {
+                override fun run() {
+                    val width = image.getWidth()
+                    val height = image.getHeight()
+                    val rgbArray = IntArray(width)
 
-class MyRunnable(val component: RaytracerView, val row: AtomicInteger, val latch: CountDownLatch) : Runnable {
-    val repaintInterval = 20
-    val image = component.image
-    val raytracer = component.raytracer
+                    while (true) {
+                        val y = row.incrementAndGet()
+                        if (y >= height) break
 
-    override fun run() {
-        val width = image.getWidth()
-        val height = image.getHeight()
-        val rgbArray = IntArray(width)
+                        for (val x in 0..width-1)
+                            rgbArray[x] = raytracer.colorFor(x, y).toARGB()
 
-        while (true) {
-            val y = row.incrementAndGet()
-            if (y >= height) break
+                        image.setRGB(0, y, width, 1, rgbArray, 0, 1)
 
-            for (val x in 0..width-1)
-                rgbArray[x] = raytracer.colorFor(x, y).toARGB()
+                        if ((y % repaintInterval) == 0)
+                            repaint();
+                    }
 
-            image.setRGB(0, y, width, 1, rgbArray, 0, 1)
+                    latch.countDown();
+                }
+            }).start()
 
-            if ((y % repaintInterval) == 0)
-                component.repaint();
-        }
+        Thread(object : Runnable {
+            override fun run() {
+                val startTime = System.currentTimeMillis()
 
-        latch.countDown();
+                try {
+                    latch.await()
+                    repaint()
+                } catch (e: InterruptedException) {
+                }
+
+                val elapsed = System.currentTimeMillis() - startTime
+                println("elapsed time: $elapsed ms")
+            }
+        }).start()
     }
 }
