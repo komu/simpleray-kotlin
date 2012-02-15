@@ -22,7 +22,7 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.sqrt
-import fi.evident.dojo.raytracer.MathUtils.square
+import fi.evident.dojo.raytracer.math.square
 
 class Vector3(val x: Double, val y: Double, val z: Double) {
 
