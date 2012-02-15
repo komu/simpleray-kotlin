@@ -31,14 +31,14 @@ import java.util.concurrent.atomic.AtomicInteger
 class RaytracerView(scene: Scene) : JComponent() {
 
     val image = BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB)
-    val raytracer = Raytracer(scene, image.getWidth(), image.getHeight())
+    val raytracer = Raytracer(scene, image.width, image.height)
 
     override fun paintComponent(g: Graphics?) {
         g?.drawImage(image, 0, 0, getWidth(), getHeight(), this)
     }
 
     override fun getPreferredSize() =
-        Dimension(image.getWidth(), image.getHeight())
+        Dimension(image.width, image.height)
 
     fun startRaytracing() {
         val numberOfThreads = Runtime.getRuntime().sure().availableProcessors()
@@ -49,15 +49,15 @@ class RaytracerView(scene: Scene) : JComponent() {
         for (val i in 1..numberOfThreads)
             Thread(object : Runnable {
                 override fun run() {
-                    val width = image.getWidth()
-                    val height = image.getHeight()
+                    val width = image.width
+                    val height = image.height
                     val rgbArray = IntArray(width)
 
                     while (true) {
                         val y = row.incrementAndGet()
                         if (y >= height) break
 
-                        for (val x in 0..width-1)
+                        for (val x in rgbArray.indices)
                             rgbArray[x] = raytracer.colorFor(x, y).toARGB()
 
                         image.setRGB(0, y, width, 1, rgbArray, 0, 1)

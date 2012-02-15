@@ -23,6 +23,7 @@ package fi.evident.dojo.raytracer
 
 import java.io.File
 import java.io.FileReader
+import java.awt.image.BufferedImage
 
 fun StringBuilder.build() =
     this.toString().sure()
@@ -40,3 +41,9 @@ fun File.readAsString(): String =
 
         sb.build()
     }
+
+val BufferedImage.width: Int
+   get() = this.getWidth()
+
+val BufferedImage.height: Int
+   get() = this.getHeight()
