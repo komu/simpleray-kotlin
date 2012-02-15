@@ -65,7 +65,7 @@ class MyRunnable(val component: RaytracerView, val row: AtomicInteger, val latch
             if (y >= height) break
 
             for (val x in 0..width-1)
-                rgbArray[x] = raytracer.colorFor(x, y).sure().toARGB()
+                rgbArray[x] = raytracer.colorFor(x, y).toARGB()
 
             image.setRGB(0, y, width, 1, rgbArray, 0, 1)
 

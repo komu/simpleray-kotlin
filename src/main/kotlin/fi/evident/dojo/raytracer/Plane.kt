@@ -26,7 +26,7 @@ class Plane(val normal: Vector3, val offset: Float, surface: Surface) : SceneObj
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-plane_intersection
-        val denom = normal.dotProduct(ray.direction.sure()).sure()
+        val denom = normal.dotProduct(ray.direction)
         if (denom > 0) return null;
 
         val distance = (normal.dotProduct(ray.start) + offset) / -denom;

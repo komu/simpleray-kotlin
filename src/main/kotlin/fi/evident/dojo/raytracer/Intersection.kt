@@ -30,7 +30,7 @@ class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Flo
     val position: Vector3
         get() {
             if (_position == null)
-                _position = ray.start.sure().add(ray.direction.sure().scale(distance)).sure()
+                _position = ray.start.add(ray.direction.scale(distance))
             return _position.sure()
         }
 
@@ -45,8 +45,8 @@ class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Flo
         get() {
             if (_reflectDirection == null) {
                 val norm = normal
-                val dir = ray.direction.sure()
-                _reflectDirection = dir.subtract(norm.scale(2 * norm.dotProduct(dir))).sure()
+                val dir = ray.direction
+                _reflectDirection = dir.subtract(norm.scale(2 * norm.dotProduct(dir)))
             }
             return _reflectDirection.sure()
         }
