@@ -144,6 +144,6 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
          val testRay = Ray(pos, vectorToLight.normalize().sure());
 
          val testIsect = scene.nearestIntersection(testRay);
-         return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude());
+         return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude);
     }
 }

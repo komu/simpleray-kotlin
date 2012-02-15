@@ -19,32 +19,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package fi.evident.dojo.raytracer
 
 import fi.evident.dojo.raytracer.MathUtils.sqrt
 import fi.evident.dojo.raytracer.MathUtils.square
 
-class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneObject(surface) {
+class Vector3(val x: Float, val y: Float, val z: Float) {
 
-    override fun intersect(ray: Ray): Intersection? {
-        // See http://en.wikipedia.org/wiki/Line-sphere_intersection
-        val v = center.subtract(ray.start).sure()
-        val b = v.dotProduct(ray.direction)
-
-        // if v < 0, distance is going to be negative; bail out early
-        if (b < 0)
-            return null
-
-        val disc = square(radius) - (v.magnitudeSquared - square(b))
-        if (disc < 0)
-            return null
-
-        val distance = b - sqrt(disc)
-        if (distance <= 0)
-            return null
-
-        return Intersection(this, ray, distance)
+    class object {
+        val ZERO = Vector3(0.flt, 0.flt, 0.flt)
     }
 
-    override fun normal(pos: Vector3) = pos.sure().subtract(center).sure().normalize().sure()
+    fun scale(s: Float) = Vector3(s * x, s * y, s * z)
+
+    fun divide(s: Float): Vector3 {
+        if (s == 0.flt) throw ArithmeticException("division by zero");
+
+        return Vector3(x / s, y / s, z / s);
+    }
+
+    fun negate() = scale(-1)
+
+    fun add(v: Vector3) = Vector3(x + v.x, y + v.y, z + v.z)
+
+    fun subtract(v: Vector3) = Vector3(x - v.x, y - v.y, z - v.z)
+
+    fun dotProduct(v: Vector3) = x*v.x + y*v.y + z*v.z
+
+    fun crossProduct(v: Vector3) = Vector3(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
+
+    fun normalize() = divide(magnitude)
+
+    val magnitude: Float
+       get() = sqrt(magnitudeSquared)
+
+    val magnitudeSquared: Float
+       get() = dotProduct(this)
+
+    fun distance(v: Vector3): Float {
+        val dx = x - v.x
+        val dy = y - v.y
+        val dz = z - v.z
+        return sqrt(square(dx) + square(dy) + square(dz))
+    }
+
+    fun toString() = "[$x $y $z]"
 }
+
