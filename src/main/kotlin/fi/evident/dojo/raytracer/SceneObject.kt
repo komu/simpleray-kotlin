@@ -19,27 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package fi.evident.dojo.raytracer
 
-package fi.evident.dojo.raytracer;
+abstract class SceneObject(val surface: Surface) {
 
-public abstract class SceneObject {
-    
-    public final Surface surface;
-    
-    protected SceneObject(Surface surface) {
-        assert surface != null;
-        
-        this.surface = surface;
-    }
-    
     /**
      * Returns the intersection of this object with given ray, or null
      * if the ray does not intersect the object.
      */
-    public abstract Intersection intersect(Ray ray);
-    
+    abstract fun intersect(ray: Ray): Intersection?
+
     /**
      * Returns the normal of the object at given position.
      */
-    public abstract Vector3 normal(Vector3 pos);
+    abstract fun normal(pos: Vector3): Vector3
 }
+

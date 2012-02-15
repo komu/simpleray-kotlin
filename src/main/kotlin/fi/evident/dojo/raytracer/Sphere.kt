@@ -26,8 +26,7 @@ import fi.evident.dojo.raytracer.MathUtils.square
 
 class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneObject(surface) {
 
-    override fun intersect(r: Ray?): Intersection? {
-        val ray = r.sure()
+    override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
         val v = center.subtract(ray.start).sure()
         val b = v.dotProduct(ray.direction)
@@ -47,5 +46,5 @@ class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneOb
         return Intersection(this, ray, distance)
     }
 
-    override fun normal(pos: Vector3?) = pos.sure().subtract(center).sure().normalize()
+    override fun normal(pos: Vector3) = pos.sure().subtract(center).sure().normalize().sure()
 }

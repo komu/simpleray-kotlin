@@ -19,20 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package fi.evident.dojo.raytracer
 
-class Plane(val normal: Vector3, val offset: Float, surface: Surface) : SceneObject(surface) {
+class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Float) {
 
-    override fun intersect(ray: Ray): Intersection? {
-        // See http://en.wikipedia.org/wiki/Line-plane_intersection
-        val denom = normal.dotProduct(ray.direction.sure()).sure()
-        if (denom > 0) return null;
+    private var _position: Vector3? = null
+    private var _normal: Vector3? = null
+    private var _reflectDirection: Vector3? = null
 
-        val distance = (normal.dotProduct(ray.start) + offset) / -denom;
-        return Intersection(this, ray, distance);
-    }
+    val position: Vector3
+        get() {
+            if (_position == null)
+                _position = ray.start.sure().add(ray.direction.sure().scale(distance)).sure()
+            return _position.sure()
+        }
 
-    override fun normal(pos: Vector3) = normal
+    val normal: Vector3
+        get() {
+            if (_normal == null)
+                _normal = sceneObject.normal(position)
+            return _normal.sure()
+        }
+
+    val reflectDirection: Vector3
+        get() {
+            if (_reflectDirection == null) {
+                val norm = normal
+                val dir = ray.direction.sure()
+                _reflectDirection = dir.subtract(norm.scale(2 * norm.dotProduct(dir))).sure()
+            }
+            return _reflectDirection.sure()
+        }
+
+    val surface: Surface
+        get() = sceneObject.surface
 }
-
