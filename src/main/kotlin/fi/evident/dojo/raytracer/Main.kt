@@ -25,7 +25,7 @@ import javax.swing.JFrame
 
 fun main(args : Array<String>) {
     val sceneFile = if (args.size == 1) args[0] else "scenes/simple.scene"
-    val scene = parseScene(sceneFile)
+    val scene = SceneParser.parseScene(sceneFile)
 
     val frame = JFrame("raytracer")
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

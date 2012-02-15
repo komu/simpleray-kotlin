@@ -30,34 +30,31 @@ import java.lang.Character.isWhitespace
 
 import math.Vector3
 
-fun parseScene(file: String): Scene =
-    parseScene(File(file))
-
-fun parseScene(file: File): Scene =
-    SceneParser(readContents(file)).parseScene()
-
-fun readContents(file: File): String {
-    val reader = FileReader(file)
-    try {
-        val buffer = CharArray(1024)
-        val sb = StringBuilder()
-
-        while (true) {
-            val n = reader.read(buffer)
-            if (n == -1) break
-            sb.append(buffer, 0, n)
-        }
-
-        return sb.toString().sure()
-
-    } finally {
-        reader.close()
-    }
-}
-
 class SceneParser(input: String) {
     private val input = input.toCharArray().sure()
     private var pos = 0
+
+    class object {
+        fun parseScene(file: String): Scene =
+            parseScene(File(file))
+
+        fun parseScene(file: File): Scene =
+            SceneParser(readContents(file)).parseScene()
+
+        private fun readContents(file: File): String =
+            FileReader(file) foreach { reader ->
+                val buffer = CharArray(1024)
+                val sb = StringBuilder()
+
+                while (true) {
+                    val n = reader.read(buffer)
+                    if (n == -1) break
+                    sb.append(buffer, 0, n)
+                }
+
+                sb.toString().sure()
+            }
+    }
 
     fun parseScene(): Scene {
         val scene = Scene(parseCamera())
@@ -68,7 +65,7 @@ class SceneParser(input: String) {
                 "plane"  -> scene.objects.add(parsePlane())
                 "sphere" -> scene.objects.add(parseSphere())
                 "light"  -> scene.lights.add(parseLight())
-                else     -> throw fail("unexpected symbol ${symbol}")
+                else     -> throw fail("unexpected symbol $symbol")
             }
         }
 
