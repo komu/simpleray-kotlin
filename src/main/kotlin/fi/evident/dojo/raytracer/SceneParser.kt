@@ -31,7 +31,7 @@ import java.lang.Character.isWhitespace
 import math.Vector3
 
 class SceneParser(input: String) {
-    private val input = input.toCharArray().sure()
+    private val input = input.toCharArray()
     private var pos = 0
 
     class object {
@@ -52,7 +52,7 @@ class SceneParser(input: String) {
                     sb.append(buffer, 0, n)
                 }
 
-                sb.toString().sure()
+                sb.build()
             }
     }
 
@@ -172,7 +172,7 @@ class SceneParser(input: String) {
         while (pos < input.size && isLetter(input[pos]))
             sb.append(input[pos++])
 
-        return sb.toString().sure()
+        return sb.build()
     }
 
     fun hasMore(): Boolean {
@@ -182,9 +182,11 @@ class SceneParser(input: String) {
 
     private fun readTokenFromAlphabet(alphabet: String): String {
         val sb = StringBuilder()
+
         while (pos < input.size && alphabet.lastIndexOf(input[pos]) != -1)
             sb.append(input[pos++])
-        return sb.toString().sure()
+
+        return sb.build()
     }
 
     fun skipWhitespace(): Unit {
@@ -202,6 +204,8 @@ class SceneParser(input: String) {
 
     fun fail(message: String): ParseException =
         ParseException(pos, message)
+
 }
 
 class ParseException(pos: Int, message: String) : RuntimeException("${pos}: ${message}")
+
