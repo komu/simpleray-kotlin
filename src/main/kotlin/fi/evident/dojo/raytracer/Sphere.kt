@@ -21,15 +21,15 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.MathUtils.sqrt
+import java.lang.Math.sqrt
 import fi.evident.dojo.raytracer.MathUtils.square
 
-class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneObject(surface) {
+class Sphere(val center: Vector3, val radius: Double, surface: Surface) : SceneObject(surface) {
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
         val v = center - ray.start
-        val b = v.dot(ray.direction)
+        val b = v dot ray.direction
 
         // if v < 0, distance is going to be negative; bail out early
         if (b < 0)

@@ -135,7 +135,7 @@ class SceneParser(input: String) {
         return Color(r, g, b)
     }
 
-    fun parseNumber(): Float {
+    fun parseNumber(): Double {
         skipWhitespace()
 
         if (!hasMore())
@@ -143,7 +143,7 @@ class SceneParser(input: String) {
 
         val token = readTokenFromAlphabet("-.0123456789")
         try {
-            return Float.parseFloat(token)
+            return Double.parseDouble(token)
         } catch (e: NumberFormatException) {
             throw fail("expected number, but got $token")
         }

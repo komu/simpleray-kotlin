@@ -22,17 +22,17 @@
 
 package fi.evident.dojo.raytracer
 
-class Plane(val normal: Vector3, val offset: Float, surface: Surface) : SceneObject(surface) {
+class Plane(val normal: Vector3, val offset: Double, surface: Surface) : SceneObject(surface) {
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-plane_intersection
-        val denom = normal.dot(ray.direction)
-        if (denom > 0) return null;
+        val denom = normal dot ray.direction
+        if (denom > 0)
+            return null
 
-        val distance = (normal.dot(ray.start) + offset) / -denom;
-        return Intersection(this, ray, distance);
+        val distance = ((normal dot ray.start) + offset) / -denom
+        return Intersection(this, ray, distance)
     }
 
     override fun normal(pos: Vector3) = normal
 }
-

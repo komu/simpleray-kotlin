@@ -21,8 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
-abstract class Surface(val roughness: Float) {
+abstract class Surface(val roughness: Double) {
     abstract fun diffuse(pos: Vector3): Color
     abstract fun specular(pos: Vector3): Color
-    abstract fun reflectivity(pos: Vector3): Float
+    abstract fun reflectivity(pos: Vector3): Double
 }

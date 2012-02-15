@@ -21,29 +21,24 @@
  */
 package fi.evident.dojo.raytracer.MathUtils
 
-fun square(x: Float) = x*x
-fun sqrt(x: Float) = Math.sqrt(x.dbl).flt
-fun pow(a: Float, b: Float) = Math.pow(a.dbl, b.dbl).flt
+import java.lang.Math.sqrt
+
+inline fun square(x: Double) = x*x
 
 /**
  * Returns the roots roots of ax^2+bx+c = 0.
  */
-fun rootsOfQuadraticEquation(a: Float, b: Float, c: Float): FloatArray {
-    val disc = square(b) - 4 * a * c;
-    val divisor = 2*a;
+fun rootsOfQuadraticEquation(a: Double, b: Double, c: Double): DoubleArray {
+    val disc = square(b) - 4 * a * c
+    val divisor = 2*a
 
     if (disc < 0)
-        return FloatArray(0)
+        return doubleArray()
 
-    if (disc == 0.flt) {
-        val result = FloatArray(1)
-        result[0] = -b / divisor
-         return result
-    }
+    if (disc == 0.0)
+        return doubleArray(-b / divisor)
 
     val discSqrt = sqrt(disc)
-    val result = FloatArray(2)
-    result[0] = (-b + discSqrt) / divisor
-    result[1] = (-b - discSqrt) / divisor
-    return result
+    return doubleArray((-b + discSqrt) / divisor,
+                       (-b - discSqrt) / divisor)
 }

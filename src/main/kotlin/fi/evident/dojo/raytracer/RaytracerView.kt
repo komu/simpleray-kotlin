@@ -20,13 +20,13 @@
  * THE SOFTWARE.
  */
 
-package fi.evident.dojo.raytracer;
+package fi.evident.dojo.raytracer
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.*
+import java.awt.*
+import java.awt.image.BufferedImage
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.atomic.AtomicInteger
 
 class RaytracerView(scene: Scene) : JComponent() {
 

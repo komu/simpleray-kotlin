@@ -21,20 +21,20 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.MathUtils.pow
+import java.lang.Math.pow
 
 class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
     val maxDepth = 5
     val backgroundColor = Color.BLACK
-    val maxDepthColor = Color(0.5.flt, 0.5.flt, 0.5.flt)
+    val maxDepthColor = Color(0.5, 0.5, 0.5)
 
     fun colorFor(x: Int, y: Int): Color {
         val recenterY = -(y - (height / 2.0)) / (2.0 * height)
         val recenterX = (x - (width / 2.0)) / (2.0 * width)
-        val direction = scene.camera.recenteredDirection(recenterX.flt, recenterY.flt)
+        val direction = scene.camera.recenteredDirection(recenterX, recenterY)
 
-        return traceRay(Ray(scene.camera.position, direction), maxDepth);
+        return traceRay(Ray(scene.camera.position, direction), maxDepth)
     }
 
     /**
@@ -87,13 +87,12 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val pos = intersection.position
         val lightDirection = light.vectorFrom(pos).normalize()
 
-        val illumination = lightDirection.dot(intersection.normal)
+        val illumination = lightDirection dot intersection.normal
         if (illumination <= 0)
             return Color.BLACK
 
         val surface = intersection.surface
-        val color = light.color * illumination
-        return color * surface.diffuse(pos)
+        return light.color * illumination * surface.diffuse(pos)
     }
 
     /**
@@ -104,9 +103,9 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     private fun specularColor(intersection: Intersection, light: Light): Color {
         val pos = intersection.position
         val vectorToLight = light.vectorFrom(pos).normalize()
-        val reflectDir = intersection.reflectDirection
+        val reflectDir = intersection.reflectDirection.normalize()
 
-        val specular = vectorToLight.dot(reflectDir.normalize())
+        val specular = vectorToLight dot reflectDir
         if (specular <= 0)
             return Color.BLACK
 
@@ -125,10 +124,10 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             return maxDepthColor
 
         val reflectDir = intersection.reflectDirection
-        val reflectPos = intersection.position + reflectDir*0.001.flt
+        val reflectPos = intersection.position + reflectDir*0.001
 
         val reflectivity = intersection.surface.reflectivity(reflectPos)
-        if (reflectivity == 0.flt)
+        if (reflectivity == 0.0)
             return Color.BLACK
 
         val color = traceRay(Ray(reflectPos, reflectDir), maxSteps-1)
@@ -142,7 +141,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
          val vectorToLight = light.vectorFrom(pos)
          val testRay = Ray(pos, vectorToLight.normalize())
 
-         val testIsect = scene.nearestIntersection(testRay)
-         return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude)
+         val intersection = scene.nearestIntersection(testRay)
+         return (intersection != null) && (intersection.distance <= vectorToLight.magnitude)
     }
 }

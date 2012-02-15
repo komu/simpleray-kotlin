@@ -21,46 +21,31 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.MathUtils.sqrt
+import java.lang.Math.sqrt
 import fi.evident.dojo.raytracer.MathUtils.square
 
-class Vector3(val x: Float, val y: Float, val z: Float) {
+class Vector3(val x: Double, val y: Double, val z: Double) {
 
     class object {
-        val ZERO = Vector3(0.flt, 0.flt, 0.flt)
+        val ZERO = Vector3(0.0, 0.0, 0.0)
     }
 
-    fun plus(v: Vector3) = Vector3(x + v.x, y + v.y, z + v.z)
+    fun plus(v: Vector3)  = Vector3(x + v.x, y + v.y, z + v.z)
     fun minus(v: Vector3) = Vector3(x - v.x, y - v.y, z - v.z)
-    fun times(s: Float) = Vector3(s * x, s * y, s * z)
+    fun minus()           = this * -1.0
+    fun times(s: Double)  = Vector3(s * x, s * y, s * z)
+    fun div(s: Double)    = this * (1/s)
 
-    fun div(s: Float): Vector3 {
-        if (s == 0.flt) throw ArithmeticException("division by zero");
-
-        return Vector3(x / s, y / s, z / s);
-    }
-
-    fun minus() = this / -1.flt
-
-    fun dot(v: Vector3) = x*v.x + y*v.y + z*v.z
-
+    fun dot(v: Vector3)   = x*v.x + y*v.y + z*v.z
     fun cross(v: Vector3) = Vector3(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
 
     fun normalize() = this / magnitude
 
-    val magnitude: Float
+    val magnitude: Double
        get() = sqrt(magnitudeSquared)
 
-    val magnitudeSquared: Float
+    val magnitudeSquared: Double
        get() = dot(this)
-
-    fun distance(v: Vector3): Float {
-        val dx = x - v.x
-        val dy = y - v.y
-        val dz = z - v.z
-        return sqrt(square(dx) + square(dy) + square(dz))
-    }
 
     fun toString() = "[$x $y $z]"
 }
-
