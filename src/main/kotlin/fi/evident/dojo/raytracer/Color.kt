@@ -31,10 +31,10 @@ class Color(val r: Float, val g: Float, val b: Float) {
         val WHITE = Color(1.flt, 1.flt, 1.flt)
     }
 
-    fun multiply(n: Float) = Color(n*r, n*g, n*b)
-    fun multiply(c: Color) = Color(r*c.r, g*c.g, b*c.b)
-    fun add(c: Color) = Color(r+c.r, g+c.g, b+c.b)
-    fun subtract(c: Color) = Color(r-c.r, g-c.g, b-c.b)
+    fun times(n: Float) = Color(n*r, n*g, n*b)
+    fun times(c: Color) = Color(r*c.r, g*c.g, b*c.b)
+    fun plus(c: Color) = Color(r+c.r, g+c.g, b+c.b)
+    fun minus(c: Color) = Color(r-c.r, g-c.g, b-c.b)
 
     fun toARGB(): Int {
         fun norm(x: Float) = (max(0.flt, min(x, 1.flt))*255+0.5).int

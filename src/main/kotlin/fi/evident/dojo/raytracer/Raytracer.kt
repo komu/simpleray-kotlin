@@ -49,7 +49,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val naturalColor = naturalColor(intersection)
         val reflectColor = reflectColor(intersection, maxSteps)
 
-        return naturalColor.add(reflectColor)
+        return naturalColor + reflectColor
     }
 
     /**
@@ -60,7 +60,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         var color = Color.BLACK
 
         for (val light in scene.lights)
-            color = color.add(naturalColor(intersection, light))
+            color += naturalColor(intersection, light)
 
         return color
     }
@@ -75,7 +75,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             val diffuseColor = diffuseColor(intersection, light)
             val specularColor = specularColor(intersection, light)
 
-            return diffuseColor.add(specularColor)
+            return diffuseColor + specularColor
         }
     }
 
@@ -87,13 +87,13 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val pos = intersection.position
         val lightDirection = light.vectorFrom(pos).normalize()
 
-        val illumination = lightDirection.dotProduct(intersection.normal)
+        val illumination = lightDirection.dot(intersection.normal)
         if (illumination <= 0)
             return Color.BLACK
 
         val surface = intersection.surface
-        val color = light.color.multiply(illumination)
-        return color.multiply(surface.diffuse(pos))
+        val color = light.color * illumination
+        return color * surface.diffuse(pos)
     }
 
     /**
@@ -106,15 +106,14 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val vectorToLight = light.vectorFrom(pos).normalize()
         val reflectDir = intersection.reflectDirection
 
-        val specular = vectorToLight.dotProduct(reflectDir.normalize())
+        val specular = vectorToLight.dot(reflectDir.normalize())
         if (specular <= 0)
             return Color.BLACK
 
         val surface = intersection.surface
         val specularFactor = pow(specular, surface.roughness)
-        val color = light.color.multiply(specularFactor)
 
-        return color.multiply(surface.specular(pos))
+        return light.color * specularFactor * surface.specular(pos)
     }
 
     /**
@@ -126,14 +125,14 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             return maxDepthColor
 
         val reflectDir = intersection.reflectDirection
-        val reflectPos = intersection.position.add(reflectDir.scale(0.001.flt))
+        val reflectPos = intersection.position + reflectDir*0.001.flt
 
         val reflectivity = intersection.surface.reflectivity(reflectPos)
         if (reflectivity == 0.flt)
             return Color.BLACK
 
         val color = traceRay(Ray(reflectPos, reflectDir), maxSteps-1)
-        return color.multiply(reflectivity)
+        return color * reflectivity
     }
 
     /**

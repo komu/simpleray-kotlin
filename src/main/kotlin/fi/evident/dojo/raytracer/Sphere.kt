@@ -28,8 +28,8 @@ class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneOb
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
-        val v = center.subtract(ray.start)
-        val b = v.dotProduct(ray.direction)
+        val v = center - ray.start
+        val b = v.dot(ray.direction)
 
         // if v < 0, distance is going to be negative; bail out early
         if (b < 0)
@@ -46,5 +46,5 @@ class Sphere(val center: Vector3, val radius: Float, surface: Surface) : SceneOb
         return Intersection(this, ray, distance)
     }
 
-    override fun normal(pos: Vector3) = pos.subtract(center).normalize()
+    override fun normal(pos: Vector3) = (pos - center).normalize()
 }
