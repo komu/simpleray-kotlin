@@ -24,6 +24,8 @@ package fi.evident.dojo.raytracer
 import java.io.File
 import java.io.FileReader
 import java.awt.image.BufferedImage
+import javax.swing.JFrame
+import java.awt.Container
 
 fun StringBuilder.build() =
     this.toString().sure()
@@ -47,3 +49,6 @@ val BufferedImage.width: Int
 
 val BufferedImage.height: Int
    get() = this.getHeight()
+
+val JFrame.contentPane: Container
+   get() = this.getContentPane().sure()

@@ -32,7 +32,7 @@ fun main(args : Array<String>) {
 
     val view = RaytracerView(scene)
 
-    frame.getContentPane().sure().add(view)
+    frame.contentPane.add(view)
     frame.pack()
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)
