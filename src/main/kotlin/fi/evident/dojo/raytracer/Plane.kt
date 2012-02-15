@@ -20,34 +20,20 @@
  * THE SOFTWARE.
  */
 
-package fi.evident.dojo.raytracer;
+package fi.evident.dojo.raytracer
 
-public final class Plane extends SceneObject {
+class Plane(val normal: Vector3, val offset: Float, surface: Surface) : SceneObject(surface) {
 
-    private final Vector3 normal;
-    private final float offset;
-    
-    public Plane(Vector3 normal, float offset, Surface surface) {
-        super(surface);
-        
-        assert surface != null;
-        
-        this.normal = normal;
-        this.offset = offset;
-    }
-    
-    @Override
-    public Intersection intersect(Ray ray) {
+    override fun intersect(r: Ray?): Intersection? {
+        val ray = r.sure()
         // See http://en.wikipedia.org/wiki/Line-plane_intersection
-        float denom = normal.dotProduct(ray.direction);
+        val denom = normal.dotProduct(ray.direction.sure()).sure()
         if (denom > 0) return null;
-        
-        float distance = (normal.dotProduct(ray.start) + offset) / -denom; 
-        return new Intersection(this, ray, distance);
+
+        val distance = (normal.dotProduct(ray.start) + offset) / -denom;
+        return Intersection(this, ray, distance);
     }
-    
-    @Override
-    public Vector3 normal(Vector3 pos) {
-        return normal;
-    }
+
+    override fun normal(pos: Vector3?) = normal
 }
+
