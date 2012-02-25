@@ -46,10 +46,11 @@ class SceneParser(input: String) {
         while (hasMore()) {
             val symbol = readSymbol()
             when (symbol) {
-                "plane"  -> scene.objects.add(parsePlane())
-                "sphere" -> scene.objects.add(parseSphere())
-                "light"  -> scene.lights.add(parseLight())
-                else     -> throw fail("unexpected symbol $symbol")
+                "background" -> scene.backgroundColor = parseColor()
+                "plane"      -> scene.objects.add(parsePlane())
+                "sphere"     -> scene.objects.add(parseSphere())
+                "light"      -> scene.lights.add(parseLight())
+                else         -> throw fail("unexpected symbol $symbol")
             }
         }
 

@@ -27,6 +27,7 @@ import math.Vector3
 
 class Scene(val camera: Camera) {
 
+    var backgroundColor = Color.BLACK
     val objects: List<SceneObject> = ArrayList<SceneObject>()
     val lights: List<Light> = ArrayList<Light>()
 

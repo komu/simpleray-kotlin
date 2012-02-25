@@ -29,7 +29,6 @@ import math.normalize
 class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
     val maxDepth = 5
-    val backgroundColor = Color.BLACK
     val maxDepthColor = Color(0.5, 0.5, 0.5)
 
     /** The amount of random samples to take per pixel, or 0 for no random sampling */
@@ -63,7 +62,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     private fun traceRay(ray: Ray, maxSteps: Int): Color {
         val intersection = scene.nearestIntersection(ray)
         if (intersection == null)
-            return backgroundColor
+            return scene.backgroundColor
 
         val naturalColor = naturalColor(intersection)
         val reflectColor = reflectColor(intersection, maxSteps)
