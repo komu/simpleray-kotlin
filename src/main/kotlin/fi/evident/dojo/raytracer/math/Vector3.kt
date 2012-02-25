@@ -22,7 +22,6 @@
 package fi.evident.dojo.raytracer.math
 
 import java.lang.Math.sqrt
-import fi.evident.dojo.raytracer.math.square
 
 fun normalize(v: Vector3) =
     v / v.magnitude
@@ -34,8 +33,8 @@ class Vector3(val x: Double, val y: Double, val z: Double) {
     }
 
     fun plus(v: Vector3)  = Vector3(x + v.x, y + v.y, z + v.z)
+    fun minus()           = Vector3(-x, -y, -z)
     fun minus(v: Vector3) = Vector3(x - v.x, y - v.y, z - v.z)
-    fun minus()           = this * -1.0
     fun times(s: Double)  = Vector3(s * x, s * y, s * z)
     fun div(s: Double)    = this * (1/s)
 
@@ -50,3 +49,5 @@ class Vector3(val x: Double, val y: Double, val z: Double) {
 
     fun toString() = "[$x $y $z]"
 }
+
+fun Double.times(v: Vector3) = v*this

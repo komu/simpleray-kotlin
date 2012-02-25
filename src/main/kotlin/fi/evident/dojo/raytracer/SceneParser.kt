@@ -75,7 +75,7 @@ class SceneParser(input: String) {
     fun parseSurface(): Surface {
         val name = readSymbol()
 
-        val surface = Surfaces.findSurfaceByName(name)
+        val surface = Surfaces[name]
         if (surface != null)
             return surface
         else
@@ -99,7 +99,7 @@ class SceneParser(input: String) {
     }
 
     fun parseVector(): Vector3 {
-        expectChar('[');
+        expectChar('[')
         val x = parseNumber()
         val y = parseNumber()
         val z = parseNumber()
@@ -138,14 +138,14 @@ class SceneParser(input: String) {
         if (pos < input.size) {
             val ch = input[pos++]
             if (ch != expected)
-                throw fail("expected char $expected, but got $ch");
+                throw fail("expected char $expected, but got $ch")
         } else
-            throw fail("expected char $expected, but got EOF");
+            throw fail("expected char $expected, but got EOF")
     }
 
     fun expectSymbol(expected: String): Unit {
         val symbol = readSymbol()
-        if (!expected.equals(symbol))
+        if (expected != symbol)
             throw fail("expected symbol $expected, but got: $symbol")
     }
 
@@ -178,11 +178,11 @@ class SceneParser(input: String) {
             val ch = input[pos]
             if (ch == ';') {
                 while (pos < input.size && input[pos] != '\n')
-                    pos++;
+                    pos++
             } else if (!isWhitespace(input[pos]))
-                break;
+                break
 
-            pos++;
+            pos++
         }
     }
 
@@ -192,4 +192,3 @@ class SceneParser(input: String) {
 }
 
 class ParseException(pos: Int, message: String) : RuntimeException("${pos}: ${message}")
-

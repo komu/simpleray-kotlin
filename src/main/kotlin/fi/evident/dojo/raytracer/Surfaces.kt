@@ -53,11 +53,11 @@ object Surfaces {
         override fun specular(pos: Vector3) = Color.BLACK
     }
 
-    fun findSurfaceByName(name: String): Surface? =
+    fun get(name: String): Surface? =
        when (name) {
            "checkerboard" -> checkerboard
            "shiny"        -> shiny
            "mirror"       -> mirror
-           else -> null
+           else           -> null
        }
 }

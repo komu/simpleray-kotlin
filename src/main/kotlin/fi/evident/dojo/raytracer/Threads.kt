@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Evident Solutions Oy
+ * Copyright (c) 2012 Evident Solutions Oy
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,38 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.lang.Math.max
-import java.lang.Math.min
+import java.util.concurrent.CountDownLatch
 
-class Color(val r: Double, val g: Double, val b: Double) {
+fun spawnThread(f: () -> Unit): Thread {
+    val t = Thread(object : Runnable {
+        override fun run() = f()
+    })
 
-    class object {
-        val BLACK = Color(0.0, 0.0, 0.0)
-        val WHITE = Color(1.0, 1.0, 1.0)
-    }
-
-    fun times(n: Double) = Color(n*r, n*g, n*b)
-    fun times(c: Color) = Color(r*c.r, g*c.g, b*c.b)
-    fun plus(c: Color)  = Color(r+c.r, g+c.g, b+c.b)
-    fun minus(c: Color) = Color(r-c.r, g-c.g, b-c.b)
-
-    fun toARGB(): Int {
-        fun norm(x: Double) = (max(0.0, min(x, 1.0))*255+0.5).int
-
-        val aa = 0xFF;
-        val rr = norm(r)
-        val gg = norm(g)
-        val bb = norm(b)
-
-        return ((aa and 0xFF) shl 24) or
-               ((rr and 0xFF) shl 16) or
-               ((gg and 0xFF) shl 8)  or
-               ((bb and 0xFF) shl 0)
-    }
-
-    fun toString() = "($r $g $b)"
+    t.start()
+    return t
 }
 
-fun Double.times(c: Color) = c * this
+fun distribute(f: () -> Unit): CountDownLatch {
+    val processors = Runtime.getRuntime().sure().availableProcessors()
+    return spawnThreads(processors, f)
+}
+
+fun spawnThreads(count: Int, f: () -> Unit): CountDownLatch {
+    val latch = CountDownLatch(count)
+    for (val i in 1..count)
+        spawnThread {
+            f()
+            latch.countDown()
+        }
+    return latch
+}
+
+fun CountDownLatch.onFinish(f: () -> Unit) {
+    spawnThread {
+        try {
+            this.await()
+        } catch (e: InterruptedException) {
+        }
+        f()
+    }
+}

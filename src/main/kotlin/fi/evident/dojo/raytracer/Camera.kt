@@ -21,15 +21,14 @@
  */
 package fi.evident.dojo.raytracer
 
-import math.Vector3
-import math.normalize
+import math.*
 
 class Camera(val position: Vector3, lookAt: Vector3) {
 
     val down    = Vector3(0.0, -1.0, 0.0)
     val forward = normalize(lookAt - position)
-    val right   = normalize(forward cross down)  * 1.5
-    val up      = normalize(forward cross right) * 1.5
+    val right   = 1.5 * normalize(forward cross down)
+    val up      = 1.5 * normalize(forward cross right)
 
     fun recenteredDirection(recenterX: Double, recenterY: Double): Vector3 =
         normalize(forward + right*recenterX + up*recenterY)
