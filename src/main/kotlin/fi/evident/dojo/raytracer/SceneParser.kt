@@ -74,7 +74,7 @@ class SceneParser(input: String) {
     }
 
     fun parseSurface(): Surface {
-        val name = readSymbol()
+        val name = parseString()
 
         val surface = Surfaces[name]
         if (surface != null)
@@ -133,6 +133,24 @@ class SceneParser(input: String) {
         }
     }
 
+    fun parseString(): String {
+        skipWhitespace()
+
+        if (!hasMore())
+            throw fail("expected number, but got EOF")
+
+        val sb = StringBuilder()
+        expectChar('"')
+        while (true) {
+            val c = readChar()
+            if (c == '"')
+                break;
+            sb.append(c)
+        }
+
+        return sb.build()
+    }
+
     fun expectChar(expected: Char): Unit {
         skipWhitespace()
 
@@ -169,10 +187,16 @@ class SceneParser(input: String) {
         val sb = StringBuilder()
 
         while (pos < input.size && alphabet.lastIndexOf(input[pos]) != -1)
-            sb.append(input[pos++])
+            sb.append(readChar())
 
         return sb.build()
     }
+
+    private fun readChar(): Char =
+        if (pos < input.size)
+            input[pos++]
+        else
+            throw fail("unexpected EOF")
 
     fun skipWhitespace(): Unit {
         while (pos < input.size) {
