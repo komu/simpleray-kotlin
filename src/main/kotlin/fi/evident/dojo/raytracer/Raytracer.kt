@@ -22,6 +22,7 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.pow
+import java.lang.Math.random
 import math.Vector3
 import math.normalize
 
@@ -31,7 +32,23 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     val backgroundColor = Color.BLACK
     val maxDepthColor = Color(0.5, 0.5, 0.5)
 
+    /** The amount of random samples to take per pixel, or 0 for no random sampling */
+    var pixelRandomSamples = 0
+
     fun colorFor(x: Int, y: Int): Color {
+        if (pixelRandomSamples == 0) {
+            return colorFor(x.dbl, y.dbl)
+        } else {
+            var color = Color.BLACK
+
+            for (val i in 1..pixelRandomSamples)
+                color += colorFor(x.dbl-0.5+random(), y.dbl-0.5+random())
+
+            return color / pixelRandomSamples
+        }
+    }
+
+    fun colorFor(x: Double, y: Double): Color {
         val recenterY = -(y - (height / 2.0)) / (2.0 * height)
         val recenterX = (x - (width / 2.0)) / (2.0 * width)
         val direction = scene.camera.recenteredDirection(recenterX, recenterY)
