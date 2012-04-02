@@ -27,8 +27,8 @@ import java.lang.Character.isLetter
 import java.lang.Character.isWhitespace
 import fi.evident.dojo.raytracer.math.Vector3
 
-class SceneParser(input: String) {
-    private val input = input.toCharArray()
+class SceneParser(private val input: String) {
+
     private var pos = 0
 
     class object {
@@ -150,18 +150,15 @@ class SceneParser(input: String) {
         return String(sb)
     }
 
-    fun expectChar(expected: Char): Unit {
+    fun expectChar(expected: Char) {
         skipWhitespace()
 
-        if (pos < input.size) {
-            val ch = input[pos++]
-            if (ch != expected)
-                throw fail("expected char $expected, but got $ch")
-        } else
-            throw fail("expected char $expected, but got EOF")
+        val ch = readChar()
+        if (ch != expected)
+            throw fail("expected char $expected, but got $ch")
     }
 
-    fun expectSymbol(expected: String): Unit {
+    fun expectSymbol(expected: String) {
         val symbol = readSymbol()
         if (expected != symbol)
             throw fail("expected symbol $expected, but got: $symbol")
@@ -197,22 +194,25 @@ class SceneParser(input: String) {
         else
             throw fail("unexpected EOF")
 
-    fun skipWhitespace(): Unit {
+    private fun skipWhitespace() {
         while (pos < input.size) {
             val ch = input[pos]
             if (ch == ';') {
-                while (pos < input.size && input[pos] != '\n')
-                    pos++
-            } else if (!isWhitespace(input[pos]))
+                skipEndOfLine()
+            } else if (!isWhitespace(ch))
                 break
 
             pos++
         }
     }
 
-    fun fail(message: String): ParseException =
-        ParseException(pos, message)
+    private fun skipEndOfLine() {
+        while (pos < input.size && input[pos] != '\n')
+            pos++
+    }
 
+    private fun fail(message: String): ParseException =
+        ParseException(pos, message)
 }
 
 class ParseException(pos: Int, message: String) : RuntimeException("$pos: $message")
