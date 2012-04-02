@@ -185,7 +185,7 @@ class SceneParser(input: String) {
     private fun readTokenFromAlphabet(alphabet: String): String {
         val sb = StringBuilder()
 
-        while (pos < input.size && alphabet.lastIndexOf(input[pos]) != -1)
+        while (pos < input.size && input[pos] in alphabet)
             sb.append(readChar())
 
         return String(sb)

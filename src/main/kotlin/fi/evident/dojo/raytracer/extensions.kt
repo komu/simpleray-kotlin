@@ -25,6 +25,9 @@ import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import java.awt.Container
 
+fun String.contains(c: Char) =
+    indexOf(c) != -1
+
 val BufferedImage.width: Int
    get() = this.getWidth()
 
