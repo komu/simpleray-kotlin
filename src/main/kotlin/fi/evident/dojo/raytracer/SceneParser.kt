@@ -25,8 +25,7 @@ import java.io.File
 
 import java.lang.Character.isLetter
 import java.lang.Character.isWhitespace
-
-import math.Vector3
+import fi.evident.dojo.raytracer.math.Vector3
 
 class SceneParser(input: String) {
     private val input = input.toCharArray()
@@ -148,7 +147,7 @@ class SceneParser(input: String) {
             sb.append(c)
         }
 
-        return sb.build()
+        return String(sb)
     }
 
     fun expectChar(expected: Char): Unit {
@@ -175,7 +174,7 @@ class SceneParser(input: String) {
         while (pos < input.size && isLetter(input[pos]))
             sb.append(input[pos++])
 
-        return sb.build()
+        return String(sb)
     }
 
     fun hasMore(): Boolean {
@@ -189,7 +188,7 @@ class SceneParser(input: String) {
         while (pos < input.size && alphabet.lastIndexOf(input[pos]) != -1)
             sb.append(readChar())
 
-        return sb.build()
+        return String(sb)
     }
 
     private fun readChar(): Char =

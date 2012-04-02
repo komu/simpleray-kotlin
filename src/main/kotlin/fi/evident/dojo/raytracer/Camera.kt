@@ -21,7 +21,9 @@
  */
 package fi.evident.dojo.raytracer
 
-import math.*
+import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.normalize
+import fi.evident.dojo.raytracer.math.times
 
 class Camera(val position: Vector3, lookAt: Vector3) {
 

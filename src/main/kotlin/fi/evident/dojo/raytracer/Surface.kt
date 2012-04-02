@@ -21,7 +21,7 @@
  */
 package fi.evident.dojo.raytracer
 
-import math.Vector3
+import fi.evident.dojo.raytracer.math.Vector3
 
 abstract class Surface(val roughness: Double) {
     abstract fun diffuse(pos: Vector3): Color

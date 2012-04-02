@@ -19,9 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package fi.evident.dojo.raytracer
 
-import math.Vector3
+import fi.evident.dojo.raytracer.math.Vector3
 
 class Ray(val start: Vector3, val direction: Vector3)

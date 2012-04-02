@@ -22,9 +22,9 @@
 package fi.evident.dojo.raytracer
 
 import java.lang.Math.sqrt
-import math.square
-import math.Vector3
-import math.normalize
+import fi.evident.dojo.raytracer.math.square
+import fi.evident.dojo.raytracer.math.normalize
+import fi.evident.dojo.raytracer.math.Vector3
 
 class Sphere(val center: Vector3, val radius: Double, override val surface: Surface) : SceneObject {
 

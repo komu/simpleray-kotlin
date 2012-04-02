@@ -36,10 +36,10 @@ class Color(val r: Double, val g: Double, val b: Double) {
     fun plus(c: Color)    = Color(r+c.r, g+c.g, b+c.b)
     fun minus(c: Color)   = Color(r-c.r, g-c.g, b-c.b)
     fun div(x: Double)    = this * (1/x)
-    fun div(x: Int)       = div(x.dbl)
+    fun div(x: Int)       = div(x.toDouble())
 
     fun toARGB(): Int {
-        fun norm(x: Double) = (max(0.0, min(x, 1.0))*255+0.5).int
+        fun norm(x: Double) = (max(0.0, min(x, 1.0))*255+0.5).toInt()
 
         val aa = 0xFF;
         val rr = norm(r)

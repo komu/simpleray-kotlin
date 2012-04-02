@@ -23,8 +23,8 @@ package fi.evident.dojo.raytracer
 
 import java.lang.Math.pow
 import java.lang.Math.random
-import math.Vector3
-import math.normalize
+import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.normalize
 
 class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
@@ -36,12 +36,12 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
     fun colorFor(x: Int, y: Int): Color {
         if (pixelRandomSamples == 0) {
-            return colorFor(x.dbl, y.dbl)
+            return colorFor(x.toDouble(), y.toDouble())
         } else {
             var color = Color.BLACK
 
             for (val i in 1..pixelRandomSamples)
-                color += colorFor(x.dbl-0.5+random(), y.dbl-0.5+random())
+                color += colorFor(x.toDouble()-0.5+random(), y.toDouble()-0.5+random())
 
             return color / pixelRandomSamples
         }

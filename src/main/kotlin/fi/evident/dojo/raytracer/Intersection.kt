@@ -21,7 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
-import math.Vector3
+import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.times
 
 class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
 

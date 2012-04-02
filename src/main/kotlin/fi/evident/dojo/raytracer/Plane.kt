@@ -19,10 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package fi.evident.dojo.raytracer
 
-import math.Vector3
+import fi.evident.dojo.raytracer.math.Vector3
 
 class Plane(val normal: Vector3, val offset: Double, override val surface: Surface) : SceneObject {
 

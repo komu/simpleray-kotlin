@@ -28,11 +28,11 @@ fun main(args : Array<String>) {
     val scene = SceneParser.parseScene(sceneFile)
 
     val frame = JFrame("raytracer")
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    frame.setDefaultCloseOperation(3) // TODO: saying JFrame.EXIT_ON_CLOSE instead of 3 will crash compiler
 
     val view = RaytracerView(scene)
 
-    frame.contentPane.add(view)
+    frame.contentPane.add(view.component)
     frame.pack()
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)

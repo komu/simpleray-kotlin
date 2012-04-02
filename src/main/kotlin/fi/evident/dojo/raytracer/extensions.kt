@@ -27,11 +27,9 @@ import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import java.awt.Container
 
-fun StringBuilder.build() =
-    this.toString().sure()
-
-fun File.readAsString(): String =
-    FileReader(this) foreach { reader ->
+fun File.readAsString(): String {
+    val reader = FileReader(this)
+    try {
         val buffer = CharArray(1024)
         val sb = StringBuilder()
 
@@ -41,8 +39,11 @@ fun File.readAsString(): String =
             sb.append(buffer, 0, n)
         }
 
-        sb.build()
+        return String(sb)
+    } finally {
+        reader.close()
     }
+}
 
 val BufferedImage.width: Int
    get() = this.getWidth()

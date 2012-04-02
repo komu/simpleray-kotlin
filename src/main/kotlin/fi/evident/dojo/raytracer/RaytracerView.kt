@@ -19,7 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package fi.evident.dojo.raytracer
 
 import javax.swing.*
@@ -28,18 +27,11 @@ import java.awt.image.BufferedImage
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.CountDownLatch
 
-class RaytracerView(scene: Scene) : JComponent() {
-
+class RaytracerView(scene: Scene) {
     val image = BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB)
+    val component = ImagePanel(image)
     val raytracer = Raytracer(scene, image.width, image.height)
     val repaintInterval = 20
-
-    override fun paintComponent(g: Graphics?) {
-        g?.drawImage(image, 0, 0, getWidth(), getHeight(), this)
-    }
-
-    override fun getPreferredSize() =
-        Dimension(image.width, image.height)
 
     fun startRaytracing() {
         val row = AtomicInteger(0)
@@ -60,10 +52,10 @@ class RaytracerView(scene: Scene) : JComponent() {
                 image.setRGB(0, y, width, 1, rgbArray, 0, 1)
 
                 if ((y % repaintInterval) == 0)
-                    repaint()
+                    component.repaint()
             }
         } onFinish {
-            repaint()
+            component.repaint()
             val elapsed = System.currentTimeMillis() - startTime
             println("elapsed time: $elapsed ms")
         }
