@@ -21,29 +21,9 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.io.File
-import java.io.FileReader
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import java.awt.Container
-
-fun File.readAsString(): String {
-    val reader = FileReader(this)
-    try {
-        val buffer = CharArray(1024)
-        val sb = StringBuilder()
-
-        while (true) {
-            val n = reader.read(buffer)
-            if (n == -1) break
-            sb.append(buffer, 0, n)
-        }
-
-        return String(sb)
-    } finally {
-        reader.close()
-    }
-}
 
 val BufferedImage.width: Int
    get() = this.getWidth()

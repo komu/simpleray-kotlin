@@ -36,7 +36,7 @@ class SceneParser(input: String) {
             parseScene(File(file))
 
         fun parseScene(file: File): Scene =
-            SceneParser(file.readAsString()).parseScene()
+            SceneParser(file.readText()).parseScene()
     }
 
     fun parseScene(): Scene {
@@ -215,4 +215,4 @@ class SceneParser(input: String) {
 
 }
 
-class ParseException(pos: Int, message: String) : RuntimeException("${pos}: ${message}")
+class ParseException(pos: Int, message: String) : RuntimeException("$pos: $message")
