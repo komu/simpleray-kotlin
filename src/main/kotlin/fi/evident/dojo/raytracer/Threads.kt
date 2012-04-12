@@ -21,16 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
+import kotlin.concurrent.thread
 import java.util.concurrent.CountDownLatch
-
-fun spawnThread(f: () -> Unit): Thread {
-    val t = Thread(object : Runnable {
-        override fun run() = f()
-    })
-
-    t.start()
-    return t
-}
 
 fun distribute(f: () -> Unit): CountDownLatch {
     val processors = Runtime.getRuntime().sure().availableProcessors()
@@ -40,7 +32,7 @@ fun distribute(f: () -> Unit): CountDownLatch {
 fun spawnThreads(count: Int, f: () -> Unit): CountDownLatch {
     val latch = CountDownLatch(count)
     for (val i in 1..count)
-        spawnThread {
+        thread {
             f()
             latch.countDown()
         }
@@ -48,7 +40,7 @@ fun spawnThreads(count: Int, f: () -> Unit): CountDownLatch {
 }
 
 fun CountDownLatch.onFinish(f: () -> Unit) {
-    spawnThread {
+    thread {
         try {
             this.await()
         } catch (e: InterruptedException) {
