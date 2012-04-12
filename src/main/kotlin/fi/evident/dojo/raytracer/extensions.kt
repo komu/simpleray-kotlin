@@ -35,4 +35,4 @@ val BufferedImage.height: Int
    get() = this.getHeight()
 
 val JFrame.contentPane: Container
-   get() = this.getContentPane().sure()
+   get() = this.getContentPane()!!
