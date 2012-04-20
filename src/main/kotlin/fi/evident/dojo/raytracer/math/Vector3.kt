@@ -22,6 +22,7 @@
 package fi.evident.dojo.raytracer.math
 
 import java.lang.Math.sqrt
+import kotlin.dom.hasClass
 
 fun normalize(v: Vector3) =
     v / v.magnitude
@@ -48,6 +49,9 @@ class Vector3(val x: Double, val y: Double, val z: Double) {
        get() = dot(this)
 
     fun toString() = "[$x $y $z]"
+
+    fun equals(o: Any?) = o is Vector3 && x == o.x && y == o.y && z == o.z
+    fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }
 
 fun Double.times(v: Vector3) = v*this
