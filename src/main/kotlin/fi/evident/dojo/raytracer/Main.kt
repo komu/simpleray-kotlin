@@ -22,14 +22,13 @@
 package fi.evident.dojo.raytracer
 
 import javax.swing.JFrame
-import javax.swing.WindowConstants
 
 fun main(args : Array<String>) {
     val sceneFile = if (args.size == 1) args[0] else "scenes/simple.scene"
     val scene = SceneParser.parseScene(sceneFile)
 
     val frame = JFrame("raytracer")
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
 
     val view = RaytracerView(scene)
 
