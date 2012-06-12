@@ -26,34 +26,32 @@ import fi.evident.dojo.raytracer.math.times
 
 class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
 
-    private var _position: Vector3? = null
-    private var _normal: Vector3? = null
-    private var _reflectDirection: Vector3? = null
+    private var _position = lazy { ray.start + ray.direction*distance }
+    private var _normal = lazy { sceneObject.normal(position)}
+    private var _reflectDirection = lazy { val norm = normal; val dir = ray.direction; dir - norm*(2*norm.dot(dir)) }
 
     val position: Vector3
-        get() {
-            if (_position == null)
-                _position = ray.start + ray.direction*distance
-            return _position!!
-        }
+        get() = _position()
 
     val normal: Vector3
-        get() {
-            if (_normal == null)
-                _normal = sceneObject.normal(position)
-            return _normal!!
-        }
+        get() = _normal()
 
     val reflectDirection: Vector3
-        get() {
-            if (_reflectDirection == null) {
-                val norm = normal
-                val dir = ray.direction
-                _reflectDirection = dir - norm*(2*norm.dot(dir))
-            }
-            return _reflectDirection!!
-        }
+        get() = _reflectDirection()
 
     val surface: Surface
         get() = sceneObject.surface
+}
+
+fun lazy<T>(f: () -> T): () -> T {
+    var computed = false
+    var cached: T? = null
+
+    return { () ->
+        if (!computed) {
+            cached = f()
+            computed = true
+        }
+        cached as T
+    }
 }
