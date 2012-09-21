@@ -126,7 +126,7 @@ class SceneParser(private val input: String) {
 
         val token = readTokenFromAlphabet("-.0123456789")
         try {
-            return Double.parseDouble(token)
+            return token.toDouble()
         } catch (e: NumberFormatException) {
             throw fail("expected number, but got $token")
         }

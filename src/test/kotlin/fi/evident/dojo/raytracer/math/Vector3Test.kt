@@ -2,7 +2,6 @@ package fi.evident.dojo.raytracer.math
 
 import org.junit.Test as test
 import kotlin.test.*
-import java.util.List
 
 class Vector3Test {
 
