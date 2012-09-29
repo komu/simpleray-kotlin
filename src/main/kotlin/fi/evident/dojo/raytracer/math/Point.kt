@@ -19,25 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fi.evident.dojo.raytracer
+package fi.evident.dojo.raytracer.math
 
-import fi.evident.dojo.raytracer.math.Direction
-import fi.evident.dojo.raytracer.math.Point
+class Point(val x: Double, val y: Double, val z: Double) {
 
-class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
+    class object {
+        val ZERO = Point(0.0, 0.0, 0.0)
+    }
 
-    private val _position = lazy { ray.pointAtDistance(distance) }
-    val position: Point
-        get() = _position()
+    fun plus(v: Direction)  = Point(x + v.x, y + v.y, z + v.z)
+    fun minus(v: Direction) = Point(x - v.x, y - v.y, z - v.z)
+    fun minus(v: Point)     = Direction(x - v.x, y - v.y, z - v.z)
 
-    private val _normal = lazy { sceneObject.normal(position)}
-    val normal: Direction
-        get() = _normal()
+    fun toString() = "[$x $y $z]"
 
-    private val _reflectDirection = lazy { val norm = normal; val dir = ray.direction; dir - (norm*2.0*(norm dot dir)) }
-    val reflectDirection: Direction
-        get() = _reflectDirection()
-
-    val surface: Surface
-        get() = sceneObject.surface
+    fun equals(o: Any?) = o is Point && x == o.x && y == o.y && z == o.z
+    fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }

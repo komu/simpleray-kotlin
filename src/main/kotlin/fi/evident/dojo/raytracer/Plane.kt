@@ -21,9 +21,10 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Direction
+import fi.evident.dojo.raytracer.math.Point
 
-class Plane(val normal: Vector3, val offset: Double, override val surface: Surface) : SceneObject {
+class Plane(val normal: Direction, val offset: Double, override val surface: Surface) : SceneObject {
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-plane_intersection
@@ -35,5 +36,5 @@ class Plane(val normal: Vector3, val offset: Double, override val surface: Surfa
         return Intersection(this, ray, distance)
     }
 
-    override fun normal(pos: Vector3) = normal
+    override fun normal(pos: Point) = normal
 }

@@ -21,12 +21,12 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.lang.Math.sqrt
-import fi.evident.dojo.raytracer.math.square
+import fi.evident.dojo.raytracer.math.Point
 import fi.evident.dojo.raytracer.math.normalize
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.square
+import java.lang.Math.sqrt
 
-class Sphere(val center: Vector3, val radius: Double, override val surface: Surface) : SceneObject {
+class Sphere(val center: Point, val radius: Double, override val surface: Surface) : SceneObject {
 
     override fun intersect(ray: Ray): Intersection? {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
@@ -48,5 +48,5 @@ class Sphere(val center: Vector3, val radius: Double, override val surface: Surf
         return Intersection(this, ray, distance)
     }
 
-    override fun normal(pos: Vector3) = normalize(pos - center)
+    override fun normal(pos: Point) = normalize(pos - center)
 }

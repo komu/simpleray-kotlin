@@ -21,11 +21,11 @@
  */
 package fi.evident.dojo.raytracer
 
+import fi.evident.dojo.raytracer.math.Direction
+import fi.evident.dojo.raytracer.math.Point
 import java.io.File
-
 import java.lang.Character.isLetter
 import java.lang.Character.isWhitespace
-import fi.evident.dojo.raytracer.math.Vector3
 
 class SceneParser(private val input: String) {
 
@@ -57,7 +57,7 @@ class SceneParser(private val input: String) {
     }
 
     fun parsePlane(): SceneObject {
-        val normal = parseVector()
+        val normal = parseDirection()
         val offset = parseNumber()
         val surface = parseSurface()
 
@@ -65,7 +65,7 @@ class SceneParser(private val input: String) {
     }
 
     fun parseSphere(): SceneObject {
-        val center = parseVector()
+        val center = parsePoint()
         val radius = parseNumber()
         val surface = parseSurface()
 
@@ -83,7 +83,7 @@ class SceneParser(private val input: String) {
     }
 
     fun parseLight(): Light {
-        val position = parseVector()
+        val position = parsePoint()
         val color = parseColor()
 
         return Light(position, color)
@@ -92,20 +92,30 @@ class SceneParser(private val input: String) {
     fun parseCamera(): Camera {
         expectSymbol("camera")
 
-        val position = parseVector()
-        val lookAt = parseVector()
+        val position = parsePoint()
+        val lookAt = parsePoint()
 
         return Camera(position, lookAt)
     }
 
-    fun parseVector(): Vector3 {
+    fun parseDirection(): Direction {
         expectChar('[')
         val x = parseNumber()
         val y = parseNumber()
         val z = parseNumber()
         expectChar(']')
 
-        return Vector3(x, y, z)
+        return Direction(x, y, z)
+    }
+
+    fun parsePoint(): Point {
+        expectChar('[')
+        val x = parseNumber()
+        val y = parseNumber()
+        val z = parseNumber()
+        expectChar(']')
+
+        return Point(x, y, z)
     }
 
     fun parseColor(): Color {

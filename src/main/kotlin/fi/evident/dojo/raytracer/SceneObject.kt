@@ -21,7 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Direction
+import fi.evident.dojo.raytracer.math.Point
 
 trait SceneObject {
 
@@ -36,6 +37,6 @@ trait SceneObject {
     /**
      * Returns the normal of the object at given position.
      */
-    fun normal(pos: Vector3): Vector3
+    fun normal(pos: Point): Direction
 }
 

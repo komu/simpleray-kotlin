@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012 Evident Solutions Oy
+ * Copyright (c) 2012 Evident Solutions Oy
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,15 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Direction
-import fi.evident.dojo.raytracer.math.Point
+fun lazy<T>(f: () -> T): () -> T {
+    var computed = false
+    var cached: T? = null
 
-class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
-
-    private val _position = lazy { ray.pointAtDistance(distance) }
-    val position: Point
-        get() = _position()
-
-    private val _normal = lazy { sceneObject.normal(position)}
-    val normal: Direction
-        get() = _normal()
-
-    private val _reflectDirection = lazy { val norm = normal; val dir = ray.direction; dir - (norm*2.0*(norm dot dir)) }
-    val reflectDirection: Direction
-        get() = _reflectDirection()
-
-    val surface: Surface
-        get() = sceneObject.surface
+    return {
+        if (!computed) {
+            cached = f()
+            computed = true
+        }
+        cached as T
+    }
 }

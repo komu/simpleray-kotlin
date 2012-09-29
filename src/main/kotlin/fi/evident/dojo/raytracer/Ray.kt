@@ -21,6 +21,10 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Direction
+import fi.evident.dojo.raytracer.math.Point
 
-class Ray(val start: Vector3, val direction: Vector3)
+class Ray(val start: Point, val direction: Direction) {
+
+    fun pointAtDistance(distance: Double) = start + direction*distance
+}

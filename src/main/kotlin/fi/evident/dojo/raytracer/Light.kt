@@ -21,8 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Point
 
-class Light(val position: Vector3, val color: Color) {
-    fun vectorFrom(pos: Vector3) = position - pos
+class Light(val position: Point, val color: Color) {
+    fun vectorFrom(pos: Point) = position - pos
 }

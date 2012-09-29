@@ -22,36 +22,32 @@
 package fi.evident.dojo.raytracer.math
 
 import java.lang.Math.sqrt
-import kotlin.dom.hasClass
 
-fun normalize(v: Vector3) =
+fun normalize(v: Direction) =
     v / v.magnitude
 
-class Vector3(val x: Double, val y: Double, val z: Double) {
+class Direction(val x: Double, val y: Double, val z: Double) {
 
-    class object {
-        val ZERO = Vector3(0.0, 0.0, 0.0)
-    }
+    fun plus(v: Direction)  = Direction(x + v.x, y + v.y, z + v.z)
+    fun minus()             = Direction(-x, -y, -z)
+    fun minus(v: Direction) = Direction(x - v.x, y - v.y, z - v.z)
+    fun times(s: Double)    = Direction(s * x, s * y, s * z)
+    fun div(s: Double)      = this * (1/s)
 
-    fun plus(v: Vector3)  = Vector3(x + v.x, y + v.y, z + v.z)
-    fun minus()           = Vector3(-x, -y, -z)
-    fun minus(v: Vector3) = Vector3(x - v.x, y - v.y, z - v.z)
-    fun times(s: Double)  = Vector3(s * x, s * y, s * z)
-    fun div(s: Double)    = this * (1/s)
-
-    fun dot(v: Vector3)   = x*v.x + y*v.y + z*v.z
-    fun cross(v: Vector3) = Vector3(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
+    fun dot(v: Direction)   = x*v.x + y*v.y + z*v.z
+    fun dot(v: Point)       = x*v.x + y*v.y + z*v.z
+    fun cross(v: Direction) = Direction(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
 
     val magnitude: Double
        get() = sqrt(magnitudeSquared)
 
     val magnitudeSquared: Double
-       get() = dot(this)
+       get() = x*x + y*y + z*z
 
     fun toString() = "[$x $y $z]"
 
-    fun equals(o: Any?) = o is Vector3 && x == o.x && y == o.y && z == o.z
+    fun equals(o: Any?) = o is Direction && x == o.x && y == o.y && z == o.z
     fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }
 
-fun Double.times(v: Vector3) = v*this
+fun Double.times(v: Direction) = v*this

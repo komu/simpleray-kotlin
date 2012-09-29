@@ -21,10 +21,10 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Point
 
 abstract class Surface(val roughness: Double) {
-    abstract fun diffuse(pos: Vector3): Color
-    abstract fun specular(pos: Vector3): Color
-    abstract fun reflectivity(pos: Vector3): Double
+    abstract fun diffuse(pos: Point): Color
+    abstract fun specular(pos: Point): Color
+    abstract fun reflectivity(pos: Point): Double
 }

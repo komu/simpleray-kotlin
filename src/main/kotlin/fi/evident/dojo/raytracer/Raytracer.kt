@@ -21,10 +21,10 @@
  */
 package fi.evident.dojo.raytracer
 
+import fi.evident.dojo.raytracer.math.Point
+import fi.evident.dojo.raytracer.math.normalize
 import java.lang.Math.pow
 import java.lang.Math.random
-import fi.evident.dojo.raytracer.math.Vector3
-import fi.evident.dojo.raytracer.math.normalize
 
 class Raytracer(val scene: Scene, val width: Int, val height: Int) {
 
@@ -155,7 +155,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     /**
      * Returns true if given light is not visible from given position.
      */
-    private fun isInShadow(light: Light, pos: Vector3): Boolean {
+    private fun isInShadow(light: Light, pos: Point): Boolean {
          val vectorToLight = light.vectorFrom(pos)
          val testRay = Ray(pos, normalize(vectorToLight))
 

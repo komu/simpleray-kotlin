@@ -22,35 +22,35 @@
 
 package fi.evident.dojo.raytracer
 
+import fi.evident.dojo.raytracer.math.Point
 import java.lang.Math.floor
-import fi.evident.dojo.raytracer.math.Vector3
 
 object Surfaces {
 
     val checkerboard = object : Surface(150.0) {
-        override fun specular(pos: Vector3) =
+        override fun specular(pos: Point) =
             Color.WHITE
 
-        override fun reflectivity(pos: Vector3) =
+        override fun reflectivity(pos: Point) =
             if (isWhite(pos)) 0.1 else 0.7
 
-        override fun diffuse(pos: Vector3) =
+        override fun diffuse(pos: Point) =
             if (isWhite(pos)) Color.WHITE else Color.BLACK
 
-        private fun isWhite(pos: Vector3) =
+        private fun isWhite(pos: Point) =
             (floor(pos.z) + floor(pos.x)) % 2 != 0.0
     }
 
     val shiny = object : Surface(150.0) {
-        override fun diffuse(pos: Vector3) = Color.WHITE
-        override fun specular(pos: Vector3) = Color(0.5, 0.5, 0.5)
-        override fun reflectivity(pos: Vector3) = 0.6
+        override fun diffuse(pos: Point) = Color.WHITE
+        override fun specular(pos: Point) = Color(0.5, 0.5, 0.5)
+        override fun reflectivity(pos: Point) = 0.6
     }
 
     val mirror = object : Surface(50.0) {
-        override fun reflectivity(pos: Vector3) = 1.0
-        override fun diffuse(pos: Vector3) = Color.BLACK
-        override fun specular(pos: Vector3) = Color.BLACK
+        override fun reflectivity(pos: Point) = 1.0
+        override fun diffuse(pos: Point) = Color.BLACK
+        override fun specular(pos: Point) = Color.BLACK
     }
 
     fun get(name: String): Surface? =

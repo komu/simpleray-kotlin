@@ -21,17 +21,18 @@
  */
 package fi.evident.dojo.raytracer
 
-import fi.evident.dojo.raytracer.math.Vector3
+import fi.evident.dojo.raytracer.math.Direction
+import fi.evident.dojo.raytracer.math.Point
 import fi.evident.dojo.raytracer.math.normalize
 import fi.evident.dojo.raytracer.math.times
 
-class Camera(val position: Vector3, lookAt: Vector3) {
+class Camera(val position: Point, lookAt: Point) {
 
-    val down    = Vector3(0.0, -1.0, 0.0)
+    val down    = Direction(0.0, -1.0, 0.0)
     val forward = normalize(lookAt - position)
     val right   = 1.5 * normalize(forward cross down)
     val up      = 1.5 * normalize(forward cross right)
 
-    fun recenteredDirection(recenterX: Double, recenterY: Double): Vector3 =
+    fun recenteredDirection(recenterX: Double, recenterY: Double): Direction =
         normalize(forward + right*recenterX + up*recenterY)
 }
