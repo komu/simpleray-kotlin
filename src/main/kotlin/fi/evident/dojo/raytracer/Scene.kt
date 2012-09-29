@@ -30,7 +30,7 @@ class Scene(val camera: Camera) {
     fun nearestIntersection(ray: Ray): Intersection? {
         var nearest: Intersection? = null
 
-        for (val obj in objects) {
+        for (obj in objects) {
             val intersection = obj.intersect(ray)
             if (intersection != null) {
                 if (nearest == null || intersection.distance < nearest!!.distance)

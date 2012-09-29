@@ -21,11 +21,8 @@
  */
 package fi.evident.dojo.raytracer
 
-import javax.swing.*
-import java.awt.*
 import java.awt.image.BufferedImage
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.CountDownLatch
 
 class RaytracerView(scene: Scene) {
     val image = BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB)
@@ -46,7 +43,7 @@ class RaytracerView(scene: Scene) {
                 val y = row.incrementAndGet()
                 if (y >= height) break
 
-                for (val x in rgbArray.indices)
+                for (x in rgbArray.indices)
                     rgbArray[x] = raytracer.colorFor(x, y).toARGB()
 
                 image.setRGB(0, y, width, 1, rgbArray, 0, 1)

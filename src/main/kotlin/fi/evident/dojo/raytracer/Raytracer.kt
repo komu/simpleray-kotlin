@@ -40,7 +40,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         } else {
             var color = Color.BLACK
 
-            for (val i in 1..pixelRandomSamples)
+            for (i in 1..pixelRandomSamples)
                 color += colorFor(x.toDouble()-0.5+random(), y.toDouble()-0.5+random())
 
             return color / pixelRandomSamples
@@ -52,20 +52,20 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val recenterX = (x - (width / 2.0)) / (2.0 * width)
         val direction = scene.camera.recenteredDirection(recenterX, recenterY)
 
-        return traceRay(Ray(scene.camera.position, direction), maxDepth)
+        return traceRay(Ray(scene.camera.position, direction), 0)
     }
 
     /**
      * Traces a ray into given direction, taking at most maxSteps recursive
      * steps.
      */
-    private fun traceRay(ray: Ray, maxSteps: Int): Color {
+    private fun traceRay(ray: Ray, depth: Int): Color {
         val intersection = scene.nearestIntersection(ray)
         if (intersection == null)
             return scene.backgroundColor
 
         val naturalColor = naturalColor(intersection)
-        val reflectColor = reflectColor(intersection, maxSteps)
+        val reflectColor = reflectColor(intersection, depth)
 
         return naturalColor + reflectColor
     }
@@ -77,7 +77,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     private fun naturalColor(intersection: Intersection): Color {
         var color = Color.BLACK
 
-        for (val light in scene.lights)
+        for (light in scene.lights)
             color += naturalColor(intersection, light)
 
         return color
@@ -86,16 +86,11 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     /**
      * Returns the natural color given by given light.
      */
-    private fun naturalColor(intersection: Intersection, light: Light): Color {
-        if (isInShadow(light, intersection.position)) {
-            return Color.BLACK
-        } else {
-            val diffuseColor = diffuseColor(intersection, light)
-            val specularColor = specularColor(intersection, light)
-
-            return diffuseColor + specularColor
-        }
-    }
+    private fun naturalColor(intersection: Intersection, light: Light): Color =
+        if (isInShadow(light, intersection.position))
+            Color.BLACK
+        else
+            diffuseColor(intersection, light) + specularColor(intersection, light)
 
     /**
      * Calculates the diffuse color at given intersection by Lambertian
@@ -108,9 +103,8 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val illumination = lightDirection dot intersection.normal
         if (illumination <= 0)
             return Color.BLACK
-
-        val surface = intersection.surface
-        return light.color * illumination * surface.diffuse(pos)
+        else
+            return light.color * illumination * intersection.surface.diffuse(pos)
     }
 
     /**
@@ -128,6 +122,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             return Color.BLACK
 
         val surface = intersection.surface
+
         val specularFactor = pow(specular, surface.roughness)
 
         return light.color * specularFactor * surface.specular(pos)
@@ -137,8 +132,8 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      * Calculates the color which is reflected to given intersection by
      * recursively tracing ray towards the direction of reflection.
      */
-    private fun reflectColor(intersection: Intersection, maxSteps: Int): Color {
-        if (maxSteps <= 1)
+    private fun reflectColor(intersection: Intersection, depth: Int): Color {
+        if (depth >= maxDepth)
             return maxDepthColor
 
         val reflectDir = intersection.reflectDirection
@@ -148,7 +143,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         if (reflectivity == 0.0)
             return Color.BLACK
 
-        val color = traceRay(Ray(reflectPos, reflectDir), maxSteps-1)
+        val color = traceRay(Ray(reflectPos, reflectDir), depth+1)
         return color * reflectivity
     }
 
