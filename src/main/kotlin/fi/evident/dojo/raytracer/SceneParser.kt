@@ -24,8 +24,6 @@ package fi.evident.dojo.raytracer
 import fi.evident.dojo.raytracer.math.Direction
 import fi.evident.dojo.raytracer.math.Point
 import java.io.File
-import java.lang.Character.isLetter
-import java.lang.Character.isWhitespace
 
 class SceneParser(private val input: String) {
 
@@ -49,7 +47,7 @@ class SceneParser(private val input: String) {
                 "plane"      -> scene.objects.add(parsePlane())
                 "sphere"     -> scene.objects.add(parseSphere())
                 "light"      -> scene.lights.add(parseLight())
-                else         -> throw fail("unexpected symbol $symbol")
+                else         -> fail("unexpected symbol $symbol")
             }
         }
 
@@ -75,11 +73,7 @@ class SceneParser(private val input: String) {
     fun parseSurface(): Surface {
         val name = parseString()
 
-        val surface = Surfaces[name]
-        if (surface != null)
-            return surface
-        else
-            throw fail("invalid surface $name")
+        return Surfaces[name] ?: throw fail("invalid surface $name")
     }
 
     fun parseLight(): Light {
@@ -143,21 +137,10 @@ class SceneParser(private val input: String) {
     }
 
     fun parseString(): String {
-        skipWhitespace()
-
-        if (!hasMore())
-            throw fail("expected number, but got EOF")
-
-        val sb = StringBuilder()
         expectChar('"')
-        while (true) {
-            val c = readChar()
-            if (c == '"')
-                break;
-            sb.append(c)
-        }
-
-        return String(sb)
+        val str = readWhile { it != '"' }
+        expectChar('"')
+        return str
     }
 
     fun expectChar(expected: Char) {
@@ -177,11 +160,7 @@ class SceneParser(private val input: String) {
     fun readSymbol(): String {
         skipWhitespace()
 
-        val sb = StringBuilder()
-        while (pos < input.size && isLetter(input[pos]))
-            sb.append(input[pos++])
-
-        return String(sb)
+        return readWhile { it.isLetter() }
     }
 
     fun hasMore(): Boolean {
@@ -189,13 +168,16 @@ class SceneParser(private val input: String) {
         return pos < input.size
     }
 
-    private fun readTokenFromAlphabet(alphabet: String): String {
-        val sb = StringBuilder()
+    private fun readTokenFromAlphabet(alphabet: String): String =
+        readWhile { it in alphabet }
 
-        while (pos < input.size && input[pos] in alphabet)
-            sb.append(readChar())
+    private fun readWhile(predicate: (Char) -> Boolean): String {
+        val start = pos
 
-        return String(sb)
+        while (pos < input.size && predicate(input[pos]))
+            pos++
+
+        return input.substring(start, pos)
     }
 
     private fun readChar(): Char =
@@ -207,9 +189,9 @@ class SceneParser(private val input: String) {
     private fun skipWhitespace() {
         while (pos < input.size) {
             val ch = input[pos]
-            if (ch == ';') {
+            if (ch == ';')
                 skipEndOfLine()
-            } else if (!isWhitespace(ch))
+            else if (!ch.isWhitespace())
                 break
 
             pos++
@@ -221,7 +203,7 @@ class SceneParser(private val input: String) {
             pos++
     }
 
-    private fun fail(message: String): ParseException =
+    private fun fail(message: String) =
         ParseException(pos, message)
 }
 
