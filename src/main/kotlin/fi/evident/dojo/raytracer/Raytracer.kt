@@ -32,7 +32,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     val maxDepthColor = Color(0.5, 0.5, 0.5)
 
     /** The amount of random samples to take per pixel, or 0 for no random sampling */
-    var pixelRandomSamples = 0
+    var pixelRandomSamples = 1
 
     fun colorFor(x: Int, y: Int): Color {
         if (pixelRandomSamples == 0) {
@@ -40,8 +40,9 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         } else {
             var color = Color.BLACK
 
-            for (i in 1..pixelRandomSamples)
+            pixelRandomSamples.times {
                 color += colorFor(x.toDouble()-0.5+random(), y.toDouble()-0.5+random())
+            }
 
             return color / pixelRandomSamples
         }
@@ -61,13 +62,10 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      */
     private fun traceRay(ray: Ray, depth: Int): Color {
         val intersection = scene.nearestIntersection(ray)
-        if (intersection == null)
-            return scene.backgroundColor
-
-        val naturalColor = naturalColor(intersection)
-        val reflectColor = reflectColor(intersection, depth)
-
-        return naturalColor + reflectColor
+        return if (intersection != null)
+            naturalColor(intersection) + reflectColor(intersection, depth)
+        else
+            scene.backgroundColor
     }
 
     /**

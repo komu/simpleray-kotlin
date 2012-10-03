@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage
 import java.util.concurrent.atomic.AtomicInteger
 
 class RaytracerView(scene: Scene) {
-    val image = BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB)
+    val image = BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB)
     val component = ImagePanel(image)
     val raytracer = Raytracer(scene, image.width, image.height)
     val repaintInterval = 20
