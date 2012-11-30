@@ -25,7 +25,7 @@ import java.util.concurrent.CountDownLatch
 import kotlin.concurrent.thread
 
 fun distribute(f: () -> Unit): CountDownLatch {
-    val processors = Runtime.getRuntime()!!.availableProcessors()
+    val processors = Runtime.getRuntime().availableProcessors()
     return spawnThreads(processors, f)
 }
 

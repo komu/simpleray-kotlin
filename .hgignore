@@ -1,12 +1,8 @@
 syntax: glob
 
-classes
-bin
 target
 *~
 .DS_Store
-.idea/libraries/Maven__junit_junit_4_8_2.xml
 .idea/uiDesigner.xml
 .idea/workspace.xml
-.idea/dictionaries
 .idea/ant.xml
