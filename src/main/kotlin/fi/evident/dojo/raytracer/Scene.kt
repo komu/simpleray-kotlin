@@ -21,11 +21,13 @@
  */
 package fi.evident.dojo.raytracer
 
+import java.util.ArrayList
+
 class Scene(val camera: Camera) {
 
     var backgroundColor = Color.BLACK
-    val objects: MutableList<SceneObject> = arrayList<SceneObject>()
-    val lights: MutableList<Light> = arrayList<Light>()
+    val objects: MutableList<SceneObject> = ArrayList()
+    val lights: MutableList<Light> = ArrayList()
 
     fun nearestIntersection(ray: Ray): Intersection? {
         var nearest: Intersection? = null
