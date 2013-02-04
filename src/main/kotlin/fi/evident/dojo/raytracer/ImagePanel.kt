@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Evident Solutions Oy
+ * Copyright (c) 2012-2013 Evident Solutions Oy
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ class ImagePanel(val image: BufferedImage) : JComponent() {
 
     override fun getPreferredSize(): Dimension = Dimension(image.getWidth(), image.getHeight())
 
-    override fun paintComponent(g: Graphics?) {
-        g?.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    protected override fun paintComponent(g: Graphics) {
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this)
     }
 }
