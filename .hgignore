@@ -1,8 +1,0 @@
-syntax: glob
-
-target
-*~
-.DS_Store
-.idea/uiDesigner.xml
-.idea/workspace.xml
-.idea/ant.xml
