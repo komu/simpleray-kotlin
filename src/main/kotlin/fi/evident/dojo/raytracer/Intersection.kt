@@ -23,20 +23,23 @@ package fi.evident.dojo.raytracer
 
 import fi.evident.dojo.raytracer.math.Direction
 import fi.evident.dojo.raytracer.math.Point
+import kotlin.properties.Delegates
 
 class Intersection(val sceneObject: SceneObject, val ray: Ray, val distance: Double) {
 
-    private val _position = lazy { ray.pointAtDistance(distance) }
-    val position: Point
-        get() = _position()
+    val position: Point by Delegates.lazy {
+        ray.pointAtDistance(distance)
+    }
 
-    private val _normal = lazy { sceneObject.normal(position)}
-    val normal: Direction
-        get() = _normal()
+    val normal: Direction by Delegates.lazy {
+        sceneObject.normal(position)
+    }
 
-    private val _reflectDirection = lazy { val norm = normal; val dir = ray.direction; dir - (norm*2.0*(norm dot dir)) }
-    val reflectDirection: Direction
-        get() = _reflectDirection()
+    val reflectDirection: Direction by Delegates.lazy {
+        val norm = normal
+        val dir = ray.direction
+        dir - (norm*2.0*(norm dot dir))
+    }
 
     val surface: Surface
         get() = sceneObject.surface
