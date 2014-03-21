@@ -31,8 +31,8 @@ class Point(val x: Double, val y: Double, val z: Double) {
     fun minus(v: Direction) = Point(x - v.x, y - v.y, z - v.z)
     fun minus(v: Point)     = Direction(x - v.x, y - v.y, z - v.z)
 
-    fun toString() = "[$x $y $z]"
+    override fun toString() = "[$x $y $z]"
 
-    fun equals(o: Any?) = o is Point && x == o.x && y == o.y && z == o.z
-    fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
+    override fun equals(other: Any?) = other is Point && x == other.x && y == other.y && z == other.z
+    override fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }

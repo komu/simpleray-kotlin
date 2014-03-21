@@ -44,10 +44,10 @@ class Direction(val x: Double, val y: Double, val z: Double) {
     val magnitudeSquared: Double
        get() = x*x + y*y + z*z
 
-    fun toString() = "[$x $y $z]"
+    override fun toString() = "[$x $y $z]"
 
-    fun equals(o: Any?) = o is Direction && x == o.x && y == o.y && z == o.z
-    fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
+    override fun equals(other: Any?) = other is Direction && x == other.x && y == other.y && z == other.z
+    override fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }
 
 fun Double.times(v: Direction) = v*this

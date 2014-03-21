@@ -32,7 +32,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     val maxDepthColor = Color(0.5, 0.5, 0.5)
 
     /** The amount of random samples to take per pixel, or 0 for no random sampling */
-    var pixelRandomSamples = 1
+    var pixelRandomSamples = 10
 
     fun colorFor(x: Int, y: Int): Color {
         if (pixelRandomSamples == 0) {

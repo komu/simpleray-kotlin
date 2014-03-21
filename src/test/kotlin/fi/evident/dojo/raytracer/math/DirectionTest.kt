@@ -24,11 +24,11 @@ class DirectionTest {
     class object {
         val zero = Direction(0.0, 0.0, 0.0)
         val unit = Direction(1.0, 1.0, 1.0)
-        val scalars: List<Double> = arrayList(1.0, 0.5, 4.6, 2.5, -5.4)
-        val vectors: List<Direction> = arrayList(Direction(0.0, 0.0, 0.0),
-                                                 Direction(1.0, 1.0, 1.0),
-                                                 Direction(4.5, 5.4, 6.2),
-                                                 Direction(4424.2, -24.5, 6.4))
+        val scalars = listOf(1.0, 0.5, 4.6, 2.5, -5.4)
+        val vectors = listOf(Direction(0.0, 0.0, 0.0),
+                             Direction(1.0, 1.0, 1.0),
+                             Direction(4.5, 5.4, 6.2),
+                             Direction(4424.2, -24.5, 6.4))
 
         private fun assertAlmostEqual(x: Double, y: Double) {
             assertTrue(x - y < 0.00001)

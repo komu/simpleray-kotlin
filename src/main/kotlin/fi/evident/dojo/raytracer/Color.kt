@@ -52,7 +52,7 @@ class Color(val r: Double, val g: Double, val b: Double) {
                ((bb and 0xFF) shl 0)
     }
 
-    fun toString() = "($r $g $b)"
+    override fun toString() = "($r $g $b)"
 }
 
 fun Double.times(c: Color) = c * this
