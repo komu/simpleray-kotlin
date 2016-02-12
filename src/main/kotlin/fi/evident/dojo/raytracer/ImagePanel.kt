@@ -21,15 +21,16 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.awt.*
+import java.awt.Dimension
+import java.awt.Graphics
 import java.awt.image.BufferedImage
-import javax.swing.*
+import javax.swing.JComponent
 
 class ImagePanel(val image: BufferedImage) : JComponent() {
 
-    override fun getPreferredSize(): Dimension = Dimension(image.getWidth(), image.getHeight())
+    override fun getPreferredSize(): Dimension = Dimension(image.width, image.height)
 
-    protected override fun paintComponent(g: Graphics) {
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this)
+    override fun paintComponent(g: Graphics) {
+        g.drawImage(image, 0, 0, width, height, this)
     }
 }

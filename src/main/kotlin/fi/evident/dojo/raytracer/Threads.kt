@@ -39,7 +39,7 @@ fun spawnThreads(count: Int, f: () -> Unit): CountDownLatch {
     return latch
 }
 
-fun CountDownLatch.onFinish(f: () -> Unit) {
+infix fun CountDownLatch.onFinish(f: () -> Unit) {
     thread {
         try {
             this.await()

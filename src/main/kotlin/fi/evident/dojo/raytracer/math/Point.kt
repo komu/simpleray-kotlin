@@ -23,13 +23,13 @@ package fi.evident.dojo.raytracer.math
 
 class Point(val x: Double, val y: Double, val z: Double) {
 
-    class object {
+    companion  object {
         val ZERO = Point(0.0, 0.0, 0.0)
     }
 
-    fun plus(v: Direction)  = Point(x + v.x, y + v.y, z + v.z)
-    fun minus(v: Direction) = Point(x - v.x, y - v.y, z - v.z)
-    fun minus(v: Point)     = Direction(x - v.x, y - v.y, z - v.z)
+    operator fun plus(v: Direction)  = Point(x + v.x, y + v.y, z + v.z)
+    operator fun minus(v: Direction) = Point(x - v.x, y - v.y, z - v.z)
+    operator fun minus(v: Point)     = Direction(x - v.x, y - v.y, z - v.z)
 
     override fun toString() = "[$x $y $z]"
 

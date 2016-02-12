@@ -21,7 +21,7 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.util.ArrayList
+import java.util.*
 
 class Scene(val camera: Camera) {
 
@@ -35,7 +35,7 @@ class Scene(val camera: Camera) {
         for (obj in objects) {
             val intersection = obj.intersect(ray)
             if (intersection != null) {
-                if (nearest == null || intersection.distance < nearest!!.distance)
+                if (nearest == null || intersection.distance < nearest.distance)
                     nearest = intersection;
             }
         }

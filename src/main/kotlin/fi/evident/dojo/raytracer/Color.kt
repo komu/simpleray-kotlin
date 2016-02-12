@@ -26,17 +26,17 @@ import java.lang.Math.min
 
 class Color(val r: Double, val g: Double, val b: Double) {
 
-    class object {
+    companion object {
         val BLACK = Color(0.0, 0.0, 0.0)
         val WHITE = Color(1.0, 1.0, 1.0)
     }
 
-    fun times(n: Double)  = Color(n*r, n*g, n*b)
-    fun times(c: Color)   = Color(r*c.r, g*c.g, b*c.b)
-    fun plus(c: Color)    = Color(r+c.r, g+c.g, b+c.b)
-    fun minus(c: Color)   = Color(r-c.r, g-c.g, b-c.b)
-    fun div(x: Double)    = this * (1/x)
-    fun div(x: Int)       = div(x.toDouble())
+    operator fun times(n: Double)  = Color(n*r, n*g, n*b)
+    operator fun times(c: Color)   = Color(r*c.r, g*c.g, b*c.b)
+    operator fun plus(c: Color)    = Color(r+c.r, g+c.g, b+c.b)
+    operator fun minus(c: Color)   = Color(r-c.r, g-c.g, b-c.b)
+    operator fun div(x: Double)    = this * (1/x)
+    operator fun div(x: Int)       = div(x.toDouble())
 
     fun toARGB(): Int {
         fun norm(x: Double) = (max(0.0, min(x, 1.0))*255+0.5).toInt()
@@ -55,4 +55,4 @@ class Color(val r: Double, val g: Double, val b: Double) {
     override fun toString() = "($r $g $b)"
 }
 
-fun Double.times(c: Color) = c * this
+operator fun Double.times(c: Color) = c * this

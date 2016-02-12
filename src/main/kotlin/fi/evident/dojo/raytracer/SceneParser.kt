@@ -29,7 +29,7 @@ class SceneParser(private val input: String) {
 
     private var pos = 0
 
-    class object {
+    companion object {
         fun parseScene(file: String): Scene =
             parseScene(File(file))
 
@@ -165,7 +165,7 @@ class SceneParser(private val input: String) {
 
     fun hasMore(): Boolean {
         skipWhitespace()
-        return pos < input.size
+        return pos < input.length
     }
 
     private fun readTokenFromAlphabet(alphabet: String): String =
@@ -174,20 +174,20 @@ class SceneParser(private val input: String) {
     private fun readWhile(predicate: (Char) -> Boolean): String {
         val start = pos
 
-        while (pos < input.size && predicate(input[pos]))
+        while (pos < input.length && predicate(input[pos]))
             pos++
 
         return input.substring(start, pos)
     }
 
     private fun readChar(): Char =
-        if (pos < input.size)
+        if (pos < input.length)
             input[pos++]
         else
             throw fail("unexpected EOF")
 
     private fun skipWhitespace() {
-        while (pos < input.size) {
+        while (pos < input.length) {
             val ch = input[pos]
             if (ch == ';')
                 skipEndOfLine()
@@ -199,7 +199,7 @@ class SceneParser(private val input: String) {
     }
 
     private fun skipEndOfLine() {
-        while (pos < input.size && input[pos] != '\n')
+        while (pos < input.length && input[pos] != '\n')
             pos++
     }
 

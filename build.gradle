@@ -1,21 +1,23 @@
 buildscript {
-   ext.kotlin_version = '1.0.0-rc-1036'
+    ext.kotlin_version = '1.0.0-rc-1036'
 
-   repositories {
-     mavenCentral()
-   }
+    repositories {
+        mavenCentral()
+    }
 
-   dependencies {
-     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-   }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
 apply plugin: "kotlin"
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }

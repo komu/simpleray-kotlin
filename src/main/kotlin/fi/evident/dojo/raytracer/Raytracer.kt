@@ -40,7 +40,7 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         } else {
             var color = Color.BLACK
 
-            pixelRandomSamples.times {
+            for (i in 1..pixelRandomSamples) {
                 color += colorFor(x.toDouble()-0.5+random(), y.toDouble()-0.5+random())
             }
 

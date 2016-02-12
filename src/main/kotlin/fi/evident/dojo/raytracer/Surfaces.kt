@@ -53,7 +53,7 @@ object Surfaces {
         override fun specular(pos: Point) = Color.BLACK
     }
 
-    fun get(name: String): Surface? =
+    operator fun get(name: String): Surface? =
        when (name) {
            "checkerboard" -> checkerboard
            "shiny"        -> shiny

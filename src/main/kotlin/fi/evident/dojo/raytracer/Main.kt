@@ -28,14 +28,14 @@ fun main(args : Array<String>) {
     val scene = SceneParser.parseScene(sceneFile)
 
     val frame = JFrame("raytracer")
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
 
     val view = RaytracerView(scene)
 
     frame.contentPane.add(view.component)
     frame.pack()
     frame.setLocationRelativeTo(null)
-    frame.setVisible(true)
+    frame.isVisible = true
 
     view.startRaytracing()
 }

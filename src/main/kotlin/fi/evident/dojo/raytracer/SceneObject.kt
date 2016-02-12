@@ -24,7 +24,7 @@ package fi.evident.dojo.raytracer
 import fi.evident.dojo.raytracer.math.Direction
 import fi.evident.dojo.raytracer.math.Point
 
-trait SceneObject {
+interface SceneObject {
 
     val surface: Surface
 

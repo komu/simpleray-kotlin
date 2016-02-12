@@ -23,7 +23,7 @@ package fi.evident.dojo.raytracer.math
 
 import java.lang.Math.sqrt
 
-inline fun square(x: Double) = x*x
+fun square(x: Double) = x*x
 
 /**
  * Returns the roots roots of ax^2+bx+c = 0.
@@ -33,12 +33,12 @@ fun rootsOfQuadraticEquation(a: Double, b: Double, c: Double): DoubleArray {
     val divisor = 2*a
 
     if (disc < 0)
-        return doubleArray()
+        return doubleArrayOf()
 
     if (disc == 0.0)
-        return doubleArray(-b / divisor)
+        return doubleArrayOf(-b / divisor)
 
     val discSqrt = sqrt(disc)
-    return doubleArray((-b + discSqrt) / divisor,
-                       (-b - discSqrt) / divisor)
+    return doubleArrayOf((-b + discSqrt) / divisor,
+                         (-b - discSqrt) / divisor)
 }

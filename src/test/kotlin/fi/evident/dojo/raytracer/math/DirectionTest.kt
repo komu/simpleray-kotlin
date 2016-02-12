@@ -1,27 +1,28 @@
 package fi.evident.dojo.raytracer.math
 
-import kotlin.test.*
-import org.junit.Test as test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class DirectionTest {
 
-    test fun zeroIsIdentityForAddition() {
+    @Test fun zeroIsIdentityForAddition() {
         for (v in vectors)
             assertEquals(v, v + zero)
     }
 
-    test fun magnitudeOfUnitVectorMultipliedByConstantIsConstant() {
+    @Test fun magnitudeOfUnitVectorMultipliedByConstantIsConstant() {
         for (s in scalars)
             assertAlmostEqual(s, (unit * s).magnitude)
     }
 
-    test fun multiplicationIsLinear() {
+    @Test fun multiplicationIsLinear() {
         for (v in vectors)
             for (s in scalars)
                 assertAlmostEqual(v.magnitude * s, (v * s).magnitude)
     }
 
-    class object {
+    companion object {
         val zero = Direction(0.0, 0.0, 0.0)
         val unit = Direction(1.0, 1.0, 1.0)
         val scalars = listOf(1.0, 0.5, 4.6, 2.5, -5.4)

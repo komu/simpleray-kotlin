@@ -28,15 +28,15 @@ fun normalize(v: Direction) =
 
 class Direction(val x: Double, val y: Double, val z: Double) {
 
-    fun plus(v: Direction)  = Direction(x + v.x, y + v.y, z + v.z)
-    fun minus()             = Direction(-x, -y, -z)
-    fun minus(v: Direction) = Direction(x - v.x, y - v.y, z - v.z)
-    fun times(s: Double)    = Direction(s * x, s * y, s * z)
-    fun div(s: Double)      = this * (1/s)
+    operator fun plus(v: Direction)  = Direction(x + v.x, y + v.y, z + v.z)
+    operator fun unaryMinus()             = Direction(-x, -y, -z)
+    operator fun minus(v: Direction) = Direction(x - v.x, y - v.y, z - v.z)
+    operator fun times(s: Double)    = Direction(s * x, s * y, s * z)
+    operator fun div(s: Double)      = this * (1/s)
 
-    fun dot(v: Direction)   = x*v.x + y*v.y + z*v.z
-    fun dot(v: Point)       = x*v.x + y*v.y + z*v.z
-    fun cross(v: Direction) = Direction(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
+    infix fun dot(v: Direction)   = x*v.x + y*v.y + z*v.z
+    infix fun dot(v: Point)       = x*v.x + y*v.y + z*v.z
+    infix fun cross(v: Direction) = Direction(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x)
 
     val magnitude: Double
        get() = sqrt(magnitudeSquared)
@@ -50,4 +50,4 @@ class Direction(val x: Double, val y: Double, val z: Double) {
     override fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }
 
-fun Double.times(v: Direction) = v*this
+operator fun Double.times(v: Direction) = v*this
