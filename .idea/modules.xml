@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/simpleray.iml" filepath="$PROJECT_DIR$/simpleray.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simpleray-kotlin.iml" filepath="$PROJECT_DIR$/simpleray-kotlin.iml" />
     </modules>
   </component>
 </project>
-
