@@ -27,7 +27,7 @@ import java.lang.Math.floor
 
 object Surfaces {
 
-    val checkerboard = object : Surface(150.0) {
+    object checkerboard : Surface(150.0) {
         override fun specular(pos: Point) =
             Color.WHITE
 
@@ -41,13 +41,13 @@ object Surfaces {
             (floor(pos.z) + floor(pos.x)) % 2 != 0.0
     }
 
-    val shiny = object : Surface(150.0) {
+    object shiny : Surface(150.0) {
         override fun diffuse(pos: Point) = Color.WHITE
         override fun specular(pos: Point) = Color(0.5, 0.5, 0.5)
         override fun reflectivity(pos: Point) = 0.6
     }
 
-    val mirror = object : Surface(50.0) {
+    object mirror : Surface(50.0) {
         override fun reflectivity(pos: Point) = 1.0
         override fun diffuse(pos: Point) = Color.BLACK
         override fun specular(pos: Point) = Color.BLACK

@@ -26,5 +26,5 @@ import fi.evident.dojo.raytracer.math.Point
 
 class Ray(val start: Point, val direction: Direction) {
 
-    fun pointAtDistance(distance: Double) = start + direction*distance
+    fun pointAtDistance(distance: Double) = start + direction * distance
 }

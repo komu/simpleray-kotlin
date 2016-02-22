@@ -24,7 +24,7 @@ package fi.evident.dojo.raytracer
 import java.lang.Math.max
 import java.lang.Math.min
 
-class Color(val r: Double, val g: Double, val b: Double) {
+data class Color(val r: Double, val g: Double, val b: Double) {
 
     companion object {
         val BLACK = Color(0.0, 0.0, 0.0)
@@ -56,3 +56,6 @@ class Color(val r: Double, val g: Double, val b: Double) {
 }
 
 operator fun Double.times(c: Color) = c * this
+
+inline fun <T> Iterable<T>.sumColors(block: (T) -> Color): Color =
+    fold(Color.BLACK) { c, t -> c + block(t) }

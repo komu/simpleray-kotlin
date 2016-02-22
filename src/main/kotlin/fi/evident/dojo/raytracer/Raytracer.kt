@@ -34,19 +34,14 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
     /** The amount of random samples to take per pixel, or 0 for no random sampling */
     var pixelRandomSamples = 10
 
-    fun colorFor(x: Int, y: Int): Color {
+    fun colorFor(x: Int, y: Int): Color =
         if (pixelRandomSamples == 0) {
-            return colorFor(x.toDouble(), y.toDouble())
+            colorFor(x.toDouble(), y.toDouble())
         } else {
-            var color = Color.BLACK
-
-            for (i in 1..pixelRandomSamples) {
-                color += colorFor(x.toDouble()-0.5+random(), y.toDouble()-0.5+random())
-            }
-
-            return color / pixelRandomSamples
+            (1..pixelRandomSamples).sumColors {
+                colorFor(x.toDouble() - 0.5 + random(), y.toDouble() - 0.5 + random())
+            } / pixelRandomSamples
         }
-    }
 
     fun colorFor(x: Double, y: Double): Color {
         val recenterY = -(y - (height / 2.0)) / (2.0 * height)
@@ -60,32 +55,21 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
      * Traces a ray into given direction, taking at most maxSteps recursive
      * steps.
      */
-    private fun traceRay(ray: Ray, depth: Int): Color {
-        val intersection = scene.nearestIntersection(ray)
-        return if (intersection != null)
-            naturalColor(intersection) + reflectColor(intersection, depth)
-        else
-            scene.backgroundColor
-    }
+    private fun traceRay(ray: Ray, depth: Int): Color =
+        scene.nearestIntersection(ray)?.let { naturalColor(it) + reflectColor(it, depth)} ?: scene.backgroundColor
 
     /**
      * Returns the natural color of given intersection by sum of different
      * lights coming to that position.
      */
-    private fun naturalColor(intersection: Intersection): Color {
-        var color = Color.BLACK
-
-        for (light in scene.lights)
-            color += naturalColor(intersection, light)
-
-        return color
-    }
+    private fun naturalColor(intersection: Intersection): Color =
+        scene.lights.sumColors { naturalColor(intersection, it) }
 
     /**
      * Returns the natural color given by given light.
      */
     private fun naturalColor(intersection: Intersection, light: Light): Color =
-        if (isInShadow(light, intersection.position))
+        if (light.isInShadow(intersection.position))
             Color.BLACK
         else
             diffuseColor(intersection, light) + specularColor(intersection, light)
@@ -99,10 +83,10 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
         val lightDirection = normalize(light.vectorFrom(pos))
 
         val illumination = lightDirection dot intersection.normal
-        if (illumination <= 0)
-            return Color.BLACK
+        return if (illumination <= 0)
+            Color.BLACK
         else
-            return light.color * illumination * intersection.surface.diffuse(pos)
+            light.color * illumination * intersection.surface.diffuse(pos)
     }
 
     /**
@@ -135,21 +119,20 @@ class Raytracer(val scene: Scene, val width: Int, val height: Int) {
             return maxDepthColor
 
         val reflectDir = intersection.reflectDirection
-        val reflectPos = intersection.position + reflectDir*0.001
+        val reflectPos = intersection.position + reflectDir * 0.001
 
         val reflectivity = intersection.surface.reflectivity(reflectPos)
-        if (reflectivity == 0.0)
-            return Color.BLACK
-
-        val color = traceRay(Ray(reflectPos, reflectDir), depth+1)
-        return color * reflectivity
+        return if (reflectivity == 0.0)
+            Color.BLACK
+        else
+            reflectivity * traceRay(Ray(reflectPos, reflectDir), depth + 1)
     }
 
     /**
      * Returns true if given light is not visible from given position.
      */
-    private fun isInShadow(light: Light, pos: Point): Boolean {
-         val vectorToLight = light.vectorFrom(pos)
+    private fun Light.isInShadow(pos: Point): Boolean {
+         val vectorToLight = vectorFrom(pos)
          val testRay = Ray(pos, normalize(vectorToLight))
 
          val intersection = scene.nearestIntersection(testRay)

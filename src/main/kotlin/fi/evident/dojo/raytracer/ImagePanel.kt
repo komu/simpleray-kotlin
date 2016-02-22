@@ -28,7 +28,7 @@ import javax.swing.JComponent
 
 class ImagePanel(val image: BufferedImage) : JComponent() {
 
-    override fun getPreferredSize(): Dimension = Dimension(image.width, image.height)
+    override fun getPreferredSize() = Dimension(image.width, image.height)
 
     override fun paintComponent(g: Graphics) {
         g.drawImage(image, 0, 0, width, height, this)

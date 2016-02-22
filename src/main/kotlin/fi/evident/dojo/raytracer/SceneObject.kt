@@ -29,7 +29,7 @@ interface SceneObject {
     val surface: Surface
 
     /**
-     * Returns the intersection of this object with given ray, or null
+     * Returns the intersection of this object with given ray, or `null`
      * if the ray does not intersect the object.
      */
     fun intersect(ray: Ray): Intersection?

@@ -26,10 +26,10 @@ import java.lang.Math.sqrt
 fun normalize(v: Direction) =
     v / v.magnitude
 
-class Direction(val x: Double, val y: Double, val z: Double) {
+data class Direction(val x: Double, val y: Double, val z: Double) {
 
     operator fun plus(v: Direction)  = Direction(x + v.x, y + v.y, z + v.z)
-    operator fun unaryMinus()             = Direction(-x, -y, -z)
+    operator fun unaryMinus()        = Direction(-x, -y, -z)
     operator fun minus(v: Direction) = Direction(x - v.x, y - v.y, z - v.z)
     operator fun times(s: Double)    = Direction(s * x, s * y, s * z)
     operator fun div(s: Double)      = this * (1/s)
@@ -45,9 +45,6 @@ class Direction(val x: Double, val y: Double, val z: Double) {
        get() = x*x + y*y + z*z
 
     override fun toString() = "[$x $y $z]"
-
-    override fun equals(other: Any?) = other is Direction && x == other.x && y == other.y && z == other.z
-    override fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }
 
 operator fun Double.times(v: Direction) = v*this

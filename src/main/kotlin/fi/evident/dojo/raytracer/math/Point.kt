@@ -21,7 +21,7 @@
  */
 package fi.evident.dojo.raytracer.math
 
-class Point(val x: Double, val y: Double, val z: Double) {
+data class Point(val x: Double, val y: Double, val z: Double) {
 
     companion  object {
         val ZERO = Point(0.0, 0.0, 0.0)
@@ -32,7 +32,4 @@ class Point(val x: Double, val y: Double, val z: Double) {
     operator fun minus(v: Point)     = Direction(x - v.x, y - v.y, z - v.z)
 
     override fun toString() = "[$x $y $z]"
-
-    override fun equals(other: Any?) = other is Point && x == other.x && y == other.y && z == other.z
-    override fun hashCode() = ((x.toInt() * 79) + y.toInt()) * 79 + z.toInt()
 }

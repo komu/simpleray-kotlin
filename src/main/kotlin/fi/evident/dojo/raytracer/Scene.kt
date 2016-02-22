@@ -34,10 +34,8 @@ class Scene(val camera: Camera) {
 
         for (obj in objects) {
             val intersection = obj.intersect(ray)
-            if (intersection != null) {
-                if (nearest == null || intersection.distance < nearest.distance)
-                    nearest = intersection;
-            }
+            if (intersection != null && (nearest == null || intersection.distance < nearest.distance))
+                nearest = intersection;
         }
 
         return nearest

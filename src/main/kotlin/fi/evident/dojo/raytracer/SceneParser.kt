@@ -73,7 +73,7 @@ class SceneParser(private val input: String) {
     fun parseSurface(): Surface {
         val name = parseString()
 
-        return Surfaces[name] ?: throw fail("invalid surface $name")
+        return Surfaces[name] ?: fail("invalid surface $name")
     }
 
     fun parseLight(): Light {
@@ -126,13 +126,13 @@ class SceneParser(private val input: String) {
         skipWhitespace()
 
         if (!hasMore())
-            throw fail("expected number, but got EOF")
+            fail("expected number, but got EOF")
 
         val token = readTokenFromAlphabet("-.0123456789")
         try {
             return token.toDouble()
         } catch (e: NumberFormatException) {
-            throw fail("expected number, but got $token")
+            fail("expected number, but got $token")
         }
     }
 
@@ -148,13 +148,13 @@ class SceneParser(private val input: String) {
 
         val ch = readChar()
         if (ch != expected)
-            throw fail("expected char $expected, but got $ch")
+            fail("expected char $expected, but got $ch")
     }
 
     fun expectSymbol(expected: String) {
         val symbol = readSymbol()
         if (expected != symbol)
-            throw fail("expected symbol $expected, but got: $symbol")
+            fail("expected symbol $expected, but got: $symbol")
     }
 
     fun readSymbol(): String {
@@ -184,7 +184,7 @@ class SceneParser(private val input: String) {
         if (pos < input.length)
             input[pos++]
         else
-            throw fail("unexpected EOF")
+            fail("unexpected EOF")
 
     private fun skipWhitespace() {
         while (pos < input.length) {
@@ -203,8 +203,8 @@ class SceneParser(private val input: String) {
             pos++
     }
 
-    private fun fail(message: String) =
-        ParseException(pos, message)
+    private fun fail(message: String): Nothing =
+        throw ParseException(pos, message)
 }
 
 class ParseException(pos: Int, message: String) : RuntimeException("$pos: $message")
