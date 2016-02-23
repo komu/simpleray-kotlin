@@ -21,24 +21,24 @@
  */
 package fi.evident.dojo.raytracer
 
-import java.awt.image.BufferedImage
+import javafx.scene.image.PixelFormat
+import javafx.scene.image.WritableImage
 import java.util.concurrent.atomic.AtomicInteger
 
 class RaytracerView(scene: Scene) {
-    val image = BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB)
-    val component = ImagePanel(image)
-    val raytracer = Raytracer(scene, image.width, image.height)
-    val repaintInterval = 20
+    val width = 1200
+    val height = 1200
+    val image = WritableImage(width, height)
+    private val raytracer = Raytracer(scene, width, height)
 
     fun startRaytracing() {
         val row = AtomicInteger(0)
         val startTime = System.currentTimeMillis()
+        val pixelWriter = image.pixelWriter
+        val format = PixelFormat.getIntArgbInstance()
 
         distribute {
-            val width = image.width
-            val height = image.height
             val rgbArray = IntArray(width)
-
             while (true) {
                 val y = row.incrementAndGet()
                 if (y >= height) break
@@ -46,13 +46,9 @@ class RaytracerView(scene: Scene) {
                 for (x in rgbArray.indices)
                     rgbArray[x] = raytracer.colorFor(x, y).toARGB()
 
-                image.setRGB(0, y, width, 1, rgbArray, 0, 1)
-
-                if ((y % repaintInterval) == 0)
-                    component.repaint()
+                pixelWriter.setPixels(0, y, width, 1, format, rgbArray, 0, 0)
             }
         } onFinish {
-            component.repaint()
             val elapsed = System.currentTimeMillis() - startTime
             println("elapsed time: $elapsed ms")
         }

@@ -21,21 +21,27 @@
  */
 package fi.evident.dojo.raytracer
 
-import javax.swing.JFrame
+import javafx.application.Application
+import javafx.scene.image.ImageView
+import javafx.scene.layout.BorderPane
+import javafx.stage.Stage
+import javafx.scene.Scene as JXScene
+
+class MyApp : Application() {
+    override fun start(stage: Stage) {
+        val sceneFile = parameters.unnamed.elementAtOrElse(0) { "scenes/simple.scene" }
+        val scene = SceneParser.parseScene(sceneFile)
+
+        val raytracerView = RaytracerView(scene)
+
+        stage.scene = JXScene(BorderPane(ImageView(raytracerView.image)), raytracerView.width.toDouble(), raytracerView.height.toDouble())
+        stage.title = "raytracer"
+        stage.show()
+
+        raytracerView.startRaytracing()
+    }
+}
 
 fun main(args : Array<String>) {
-    val sceneFile = if (args.size == 1) args[0] else "scenes/simple.scene"
-    val scene = SceneParser.parseScene(sceneFile)
-
-    val frame = JFrame("raytracer")
-    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-
-    val view = RaytracerView(scene)
-
-    frame.contentPane.add(view.component)
-    frame.pack()
-    frame.setLocationRelativeTo(null)
-    frame.isVisible = true
-
-    view.startRaytracing()
+    Application.launch(MyApp::class.java, *args)
 }
